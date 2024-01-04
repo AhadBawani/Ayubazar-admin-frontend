@@ -13,3 +13,10 @@ export const CategoryAction = (response) => {
         payload: response
     }
 }
+
+export const ProductsAction = (response) => {
+    return {
+        type:ActionType.PRODUCTS,
+        payload:response
+    }
+}

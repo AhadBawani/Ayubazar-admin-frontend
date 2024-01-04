@@ -24,15 +24,15 @@ const Routing = () => {
                 </div>
             </BrowserRouter>
             <ToastContainer
-                position='top-center'
-                autoClose={4000}
-                hideProgressBar={true}
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss={false}
+                pauseOnFocusLoss
                 draggable
-                pauseOnHover={false}
+                pauseOnHover
                 theme="light"
             />
         </>

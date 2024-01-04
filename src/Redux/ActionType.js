@@ -1,6 +1,7 @@
 const ActionType = {
     COMPANY : "COMPANY",
-    CATEGORY : "CATEGORY"
+    CATEGORY : "CATEGORY",
+    PRODUCTS:"PRODUCTS"
 }
 
 export default ActionType;

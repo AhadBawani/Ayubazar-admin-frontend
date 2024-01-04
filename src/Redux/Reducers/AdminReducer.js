@@ -2,7 +2,8 @@ import ActionType from "../ActionType";
 
 const AdminState = {
     company: null,
-    category: null
+    category: null,
+    products: null
 };
 
 const AdminReducer = (state = AdminState, { type, payload }) => {
@@ -12,6 +13,9 @@ const AdminReducer = (state = AdminState, { type, payload }) => {
 
         case ActionType.CATEGORY:
             return { ...state, category: payload };
+
+        case ActionType.PRODUCTS:
+            return { ...state, products: payload };
 
         default:
             return state;
