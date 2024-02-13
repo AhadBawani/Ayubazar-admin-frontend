@@ -16,7 +16,14 @@ export const CategoryAction = (response) => {
 
 export const ProductsAction = (response) => {
     return {
-        type:ActionType.PRODUCTS,
-        payload:response
+        type: ActionType.PRODUCTS,
+        payload: response
+    }
+}
+
+export const CouponsAction = (response) => {
+    return {
+        type: ActionType.COUPONS,
+        payload: response
     }
 }

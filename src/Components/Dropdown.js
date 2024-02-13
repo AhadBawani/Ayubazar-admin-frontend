@@ -49,6 +49,21 @@ const Dropdown = ({ navigate }) => {
                             onClick={() => handleNavigation('/reports')}>
                             Reports
                         </li>
+                        <li className="py-2 px-4
+                         hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleNavigation('/coupons')}>
+                            Coupons
+                        </li>
+                        <li className="py-2 px-4
+                         hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleNavigation('/blogs')}>
+                            Blogs
+                        </li>
+                        <li className="py-2 px-4
+                         hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleNavigation('/inventory')}>
+                            Inventory
+                        </li>
                     </ul>
                 </div>
             )}

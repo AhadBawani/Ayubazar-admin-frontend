@@ -3,7 +3,8 @@ import ActionType from "../ActionType";
 const AdminState = {
     company: null,
     category: null,
-    products: null
+    products: null,
+    coupons: null
 };
 
 const AdminReducer = (state = AdminState, { type, payload }) => {
@@ -16,6 +17,9 @@ const AdminReducer = (state = AdminState, { type, payload }) => {
 
         case ActionType.PRODUCTS:
             return { ...state, products: payload };
+
+        case ActionType.COUPONS:
+            return { ...state, coupons: payload };
 
         default:
             return state;

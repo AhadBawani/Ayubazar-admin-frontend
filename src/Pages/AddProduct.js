@@ -18,7 +18,7 @@ const AddProduct = () => {
                     <hr className='my-4' />
                     <AddCategory />
                 </div>
-                <div className='flex justify-center border-l border-gray-400'>                    
+                <div className='flex justify-center border-l border-gray-400'>
                     <AddProductForm />
                 </div>
             </div>

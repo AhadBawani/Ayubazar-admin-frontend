@@ -1,7 +1,9 @@
 const ActionType = {
-    COMPANY : "COMPANY",
-    CATEGORY : "CATEGORY",
-    PRODUCTS:"PRODUCTS"
+    COMPANY: "COMPANY",
+    CATEGORY: "CATEGORY",
+    PRODUCTS: "PRODUCTS",
+    COUPONS: "COUPONS",
+    CONFIRMATIONDIALOG : "CONFIRMATIONDIALOG"
 }
 
 export default ActionType;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({ type, onChange, name, error, id }) => {
+const Input = ({ type, onChange, name, error, id, ...props }) => {
     const borderColor = error ? 'red' : '#d3d3d3';
     return (
         <input
@@ -10,7 +10,8 @@ const Input = ({ type, onChange, name, error, id }) => {
             autoComplete={false}
             onChange={onChange}
             name={name}
-            id={id}            
+            id={id}
+            {...props}
         />
 
     )

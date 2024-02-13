@@ -60,22 +60,23 @@ const AddProductForm = () => {
         }
 
         if (valid) {
-            const formattedValues = productOptions.reduce((acc, item) => {
-                const optionKey = Object.keys(item).find((key) => key.includes('option'));
-                const priceKey = Object.keys(item).find((key) => key.includes('price'));
+            // console.log(productOptions);
+            // const formattedValues = productOptions.reduce((acc, item) => {
+            //     const optionKey = Object.keys(item).find((key) => key.includes('option'));
+            //     const priceKey = Object.keys(item).find((key) => key.includes('price'));
 
-                const option = item[optionKey];
-                const price = item[priceKey];
+            //     const option = item[optionKey];
+            //     const price = item[priceKey];
 
-                if (option && price) {
-                    acc[option] = price;
-                }
-                return acc;
-            }, {});
-            
-            const productOption = JSON.stringify(formattedValues);
+            //     if (option && price) {
+            //         acc[option] = price;
+            //     }
+            //     return acc;
+            // }, {});
+
+            const productOption = JSON.stringify(productOptions);
             const formData = new FormData();
-            formData.append('productName', product.productName);
+            formData.append('productName', product.productName.trim());
             formData.append('productImage', productImage);
             formData.append('productCompany', product.productCompany);
             formData.append('description', product.productDescription);
@@ -147,7 +148,7 @@ const AddProductForm = () => {
                                 <option>Select Company</option>
                                 {
                                     company.map((item) => {
-                                        return <option key={item?._id}>{item?.companyName}</option>
+                                        return <option key={item?._id} value={item?._id}>{item?.companyName}</option>
                                     })
                                 }
                             </select>
