@@ -21,6 +21,7 @@ const Dropdown = ({ navigate }) => {
 
     const handleNavigation = (route) => {
         navigate(route);
+        setIsOpen(false);
     }
     return (
         <div
@@ -63,6 +64,11 @@ const Dropdown = ({ navigate }) => {
                          hover:bg-gray-100 cursor-pointer"
                             onClick={() => handleNavigation('/inventory')}>
                             Inventory
+                        </li>
+                        <li className="py-2 px-4
+                         hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleNavigation('/create-offer')}>
+                            Create Offer
                         </li>
                     </ul>
                 </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../Pages/Home';
 import Header from '../Components/Header';
@@ -11,9 +11,17 @@ import useComponentState from '../Hooks/useComponentState';
 import ConfirmationDialog from '../Forms/ConfirmationDialog';
 import Blogs from '../Pages/Blogs';
 import Inventory from '../Pages/Inventory';
+import CreateOffer from '../Pages/CreateOffer';
+import { getAllProductRequestHandler } from '../Requests/RequestHandler/ProductRequestHandler';
+import { useDispatch } from 'react-redux';
 
 const Routing = () => {
     const { confirmation } = useComponentState();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        getAllProductRequestHandler(dispatch);
+    }, [dispatch])
     return (
         <>
             <BrowserRouter>
@@ -29,6 +37,7 @@ const Routing = () => {
                         <Route path='/coupons' element={<Coupons />} />
                         <Route path='/blogs' element={<Blogs />} />
                         <Route path='/inventory' element={<Inventory />} />
+                        <Route path='/create-offer' element={<CreateOffer />} />
                     </Routes>
                 </div>
                 <div>
