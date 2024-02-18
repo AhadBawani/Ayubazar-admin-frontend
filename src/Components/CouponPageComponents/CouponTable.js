@@ -1,12 +1,12 @@
 import React from 'react';
-import useCouponState from '../../Hooks/useCouponState';
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { ConfirmationDialogAction } from '../../Redux/Actions/ComponentsAction';
 import { useDispatch } from 'react-redux';
+import useAdminState from '../../Hooks/useAdminState';
 
 const CouponTable = ({ handleEditCoupon }) => {
-    const { coupons } = useCouponState();
+    const { coupons } = useAdminState();
     const dispatch = useDispatch();
 
     function formatDateString(dateString) {

@@ -1,16 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../Fields/Input';
 import { IoMdClose } from 'react-icons/io';
-import useAdminState from '../Hooks/useCouponState';
+import useAdminState from '../Hooks/useAdminState';
 import { toast } from 'react-toastify';
+import { createDiscountHandler } from '../Requests/RequestHandler/OfferDiscountHandler';
+import { useDispatch } from 'react-redux';
 
 const AddOfferForm = () => {
     const { products } = useAdminState();
     const [isChecked, setIsChecked] = useState(false);
     const [selectedProductArr, setSelectedProductArr] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (selectedProductArr.length !== products?.length) {
+            setIsChecked(false);
+        }
+    }, [selectedProductArr, products])
+    const [formValue, setFormValue] = useState({
+        offerTitle: null,
+        discount: null,
+        expiryDate: null,
+    })
+
+    const [formError, setFormError] = useState({
+        offerTitle: false,
+        discount: false,
+        expiryDate: false,
+        selectedProduct: false
+    })
 
     const handleCheckboxChange = (event) => {
-        setIsChecked(event.target.checked);
+        if (event.target.checked) {
+            setIsChecked(event.target.checked);
+            setSelectedProductArr([...products]);
+        } else {
+            setIsChecked(event.target.checked);
+            setSelectedProductArr([]);
+        }
     };
 
     const handleAddProductToArr = (e) => {
@@ -29,9 +56,80 @@ const AddOfferForm = () => {
         }
     }
 
+    const onInput = (e) => {
+        setFormValue({ ...formValue, [e.target.name]: e.target.value });
+    }
+
     const handleRemoveProductFromSelected = (productId) => {
         const filtered = selectedProductArr?.filter((product) => product?._id !== productId);
         setSelectedProductArr([...filtered]);
+    }
+
+    const handleCreateOffer = () => {
+        let valid = validateForm();
+
+        if (valid) {
+            const parsedExpiryDate = new Date(formValue.expiryDate);
+            parsedExpiryDate.setHours(0, 0, 0, 0);
+            const formattedExpiryDate = parsedExpiryDate.toISOString();
+
+            const obj = {
+                discountTitle: formValue.offerTitle,
+                discountPercentage: formValue.discount,
+                expiryDate: formattedExpiryDate,
+                productArr: selectedProductArr
+            }
+            createDiscountHandler(dispatch, obj)
+                .then((offerResponse) => {                    
+                    if (offerResponse) {
+                        toast.success(offerResponse?.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log('error in create discount handler : ', error);
+                })
+        }
+    }
+    const validateForm = () => {
+        let valid = true;
+        const newErrors = { ...formError };
+
+        if (!formValue.offerTitle) {
+            newErrors.offerTitle = true;
+            valid = false;
+        } else {
+            newErrors.offerTitle = false;
+        }
+
+        if (!formValue.discount) {
+            newErrors.discount = true;
+            valid = false;
+        } else {
+            newErrors.discount = false;
+        }
+
+        if (!formValue.expiryDate) {
+            newErrors.expiryDate = true;
+            valid = false;
+        } else {
+            newErrors.expiryDate = false;
+        }
+
+        if (!selectedProductArr.length > 0) {
+            newErrors.selectedProduct = true;
+            valid = false;
+        } else {
+            newErrors.selectedProduct = false;
+        }
+
+        if (valid) {
+            setFormError(newErrors);
+            return true;
+        }
+        else {
+            setFormError(newErrors);
+            toast.error('Fill all the required fields!');
+        }
     }
     return (
         <div className='p-4'>
@@ -39,19 +137,19 @@ const AddOfferForm = () => {
                 <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                     Offer Title *
                 </span>
-                <Input name="coupon" />
+                <Input name="offerTitle" onChange={onInput} error={formError.offerTitle} />
             </div>
             <div className='flex flex-col my-6'>
                 <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                     Discount *
                 </span>
-                <Input name="coupon" type="number" />
+                <Input name="discount" type="number" onChange={onInput} error={formError.discount} />
             </div>
             <div className='flex flex-col my-6'>
                 <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                     Expire On *
                 </span>
-                <Input name="coupon" type="date" />
+                <Input name="expiryDate" type="date" onChange={onInput} error={formError.expiryDate} />
             </div>
             <div className='flex flex-col my-6'>
                 <div className='flex justify-between'>
@@ -70,7 +168,11 @@ const AddOfferForm = () => {
                 </div>
                 <select disabled={isChecked}
                     className='p-2 rounded-lg w-full outline-none'
-                    style={{ border: '1px solid #d3d3d3' }} onClick={handleAddProductToArr}>
+                    style={formError.selectedProduct ?
+                        { border: '1px solid red' }
+                        :
+                        { border: '1px solid #d3d3d3' }}
+                    onClick={handleAddProductToArr}>
                     <option>Select Product</option>
                     {products?.map((product) => {
                         return (
@@ -115,7 +217,8 @@ const AddOfferForm = () => {
                         padding: '0 30px',
                         borderRadius: '5px',
                         fontWeight: '600'
-                    }}>
+                    }}
+                    onClick={handleCreateOffer}>
                     Create Offer
                 </button>
             </div>

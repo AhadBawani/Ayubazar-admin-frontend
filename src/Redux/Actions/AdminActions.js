@@ -27,3 +27,10 @@ export const CouponsAction = (response) => {
         payload: response
     }
 }
+
+export const DiscountAction = (response) => {
+    return {
+        type: ActionType.OFFERDISCOUNT,
+        payload: response
+    }
+}

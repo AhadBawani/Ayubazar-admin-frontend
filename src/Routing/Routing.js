@@ -14,6 +14,7 @@ import Inventory from '../Pages/Inventory';
 import CreateOffer from '../Pages/CreateOffer';
 import { getAllProductRequestHandler } from '../Requests/RequestHandler/ProductRequestHandler';
 import { useDispatch } from 'react-redux';
+import { getOfferDiscountHandler } from '../Requests/RequestHandler/OfferDiscountHandler';
 
 const Routing = () => {
     const { confirmation } = useComponentState();
@@ -21,6 +22,7 @@ const Routing = () => {
 
     useEffect(() => {
         getAllProductRequestHandler(dispatch);
+        getOfferDiscountHandler(dispatch);
     }, [dispatch])
     return (
         <>

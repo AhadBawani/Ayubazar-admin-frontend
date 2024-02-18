@@ -1,23 +1,25 @@
 import React, { useRef, useState } from 'react'
 import Input from '../Fields/Input';
-import useCompanyState from '../Hooks/useCompanyState';
 import Button from '../Fields/Button';
 import DynamicInputs from '../Fields/DynamicInputs';
 import { AddProductRequestHandler } from '../Requests/RequestHandler/ProductRequestHandler';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import DynamicDescriptionInputs from '../Fields/DynamicDescriptionInputs';
+import DynamicBulletDescriptions from '../Fields/DynamicBulletDescriptions';
+import useAdminState from '../Hooks/useAdminState';
 
 const AddProductForm = () => {
-    const company = useCompanyState();
+    const { company } = useAdminState();
     const dispatch = useDispatch();
     const fileInputRef = useRef(null);
     const [productImage, setProductImage] = useState();
     const [productOptions, setProductOptions] = useState() || [];
+    const [productDescription, setProductDescription] = useState(['']);
+    const [productBulletDescription, setProductBulletDescription] = useState(['']);
     const [product, setProduct] = useState({
         productName: null,
-        productCompany: null,
-        productDescription: null,
-        option: null
+        productCompany: null
     });
     const updateProductOptions = (values) => {
         setProductOptions(values);
@@ -60,26 +62,15 @@ const AddProductForm = () => {
         }
 
         if (valid) {
-            // console.log(productOptions);
-            // const formattedValues = productOptions.reduce((acc, item) => {
-            //     const optionKey = Object.keys(item).find((key) => key.includes('option'));
-            //     const priceKey = Object.keys(item).find((key) => key.includes('price'));
-
-            //     const option = item[optionKey];
-            //     const price = item[priceKey];
-
-            //     if (option && price) {
-            //         acc[option] = price;
-            //     }
-            //     return acc;
-            // }, {});
-
             const productOption = JSON.stringify(productOptions);
+            const productDescriptions = JSON.stringify(productDescription);
+            const productBulletDescriptions = JSON.stringify(productBulletDescription);            
             const formData = new FormData();
             formData.append('productName', product.productName.trim());
             formData.append('productImage', productImage);
             formData.append('productCompany', product.productCompany);
-            formData.append('description', product.productDescription);
+            formData.append('description', productDescriptions);
+            formData.append('bulletDescription', productBulletDescriptions);
             formData.append('options', productOption);
 
             AddProductRequestHandler(dispatch, formData)
@@ -96,7 +87,14 @@ const AddProductForm = () => {
             setErrors(newErrors);
         }
     }
-
+    const updateBulletDescription = (values) => {
+        setProductBulletDescription(values);
+        console.log(values);
+    }
+    const updateDescription = (values) => {
+        setProductDescription(values);
+        console.log(values);
+    }
     return (
         <div className='m-4 p-4'>
             <div
@@ -157,10 +155,12 @@ const AddProductForm = () => {
                 </div>
             </div>
             <div className='mt-4'>
-                <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
-                    Product Description
-                </span>
-                <Input onChange={onInput} name="productDescription" />
+                <DynamicDescriptionInputs
+                    updateValues={updateDescription} />
+            </div>
+            <div className='mt-4'>
+                <DynamicBulletDescriptions
+                    updateValues={updateBulletDescription} />
             </div>
             <div className='mt-4'>
                 <DynamicInputs updateValues={updateProductOptions} />

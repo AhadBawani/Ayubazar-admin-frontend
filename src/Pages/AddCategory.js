@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import Input from '../Fields/Input';
 import Button from '../Fields/Button';
-import useCompanyState from '../Hooks/useCompanyState';
+import useAdminState from '../Hooks/useAdminState';
 
 const AddCategory = () => {
-    const company = useCompanyState();
+    const { company } = useAdminState();
 
     const [category, setCategory] = useState({
         category: null,

@@ -10,8 +10,10 @@ const Requests = {
     EDIT_COUPON: url + '/coupon/edit-coupon',
     DELETE_COUPON: url + '/coupon/delete-coupon/',
     GET_PRODUCT_IMAGE: url + '/product-images/',
-    DISABLE_PRODUCT : url + '/product/disable-product/',
-    ENABLE_PRODUCT : url + '/product/enable-product/'
+    DISABLE_PRODUCT: url + '/product/disable-product/',
+    ENABLE_PRODUCT: url + '/product/enable-product/',
+    CREATE_OFFER: url + '/offer/create-offer/',
+    GET_DISCOUNT_OFFER: url + '/offer/'
 }
 
 export default Requests;
