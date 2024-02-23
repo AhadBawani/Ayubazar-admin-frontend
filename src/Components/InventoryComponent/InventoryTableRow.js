@@ -5,6 +5,7 @@ import { disableProductHandler, enableProductHandler } from '../../Requests/Requ
 import { ImSpinner8 } from "react-icons/im";
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { DialogAction } from '../../Redux/Actions/ComponentsAction';
 
 const InventoryTableRow = ({ product, index }) => {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -34,6 +35,12 @@ const InventoryTableRow = ({ product, index }) => {
                     }, 1000)
                 }
             })
+            .catch((error) => {
+                setTimeout(() => {
+                    setIsProcessing(false);
+                    toast.success(error?.message);
+                }, 1000)
+            })
     }
 
     const handleEnableProduct = (productId) => {
@@ -43,9 +50,15 @@ const InventoryTableRow = ({ product, index }) => {
                 if (response) {
                     setTimeout(() => {
                         setIsProcessing(false);
-                        toast.success(response?.message);
+                        toast.error(response?.message);
                     }, 1000)
                 }
+            })
+            .catch((error) => {
+                setTimeout(() => {
+                    setIsProcessing(false);
+                    toast.error(error?.message);
+                }, 1000)
             })
     }
 
@@ -70,7 +83,6 @@ const InventoryTableRow = ({ product, index }) => {
                     </div>
                 </td>
                 <td className="border px-4 py-2 text-center">{product.productCompany?.companyName}</td>
-                <td className="border px-4 py-2 text-center">{product.description}</td>
                 <td className="border px-4 py-2 text-center">{product?.outOfStock ? 'Out of Stock' : 'Product is live'}</td>
                 <td className="border px-4 py-2 text-center">{formatDateString(product.createdAt)}</td>
                 <td className="border px-4 py-2 text-center">
@@ -81,7 +93,8 @@ const InventoryTableRow = ({ product, index }) => {
                         </span>
                         <span className='relative cursor-pointer'>
                             <MdEdit
-                                className="w-7 h-7 p-1 cursor-pointer rounded-full hover:bg-gray-200 m-2" />
+                                className="w-7 h-7 p-1 cursor-pointer rounded-full hover:bg-gray-200 m-2"
+                                onClick={() => dispatch(DialogAction({ open: 'edit-product', data: product }))} />
                         </span>
                     </div>
                 </td>

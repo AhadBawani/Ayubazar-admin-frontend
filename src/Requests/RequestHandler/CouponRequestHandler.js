@@ -3,7 +3,7 @@ import API from "../Middlewares/Api"
 import Requests from "../Requests/Request"
 
 export const getAllCouponHandler = (dispatch) => {
-    API.post(Requests.GET_ALL_COUPONS)
+    API.get(Requests.GET_ALL_COUPONS)
         .then((response) => {
             if (response) {
                 dispatch(CouponsAction(response.data));
@@ -22,7 +22,7 @@ export const generateCouponHandler = (data) => {
                     resolve(response.data);
                 }
             })
-            .catch((error) => {                
+            .catch((error) => {
                 reject(error);
             })
     })
@@ -31,27 +31,27 @@ export const generateCouponHandler = (data) => {
 export const editCouponHandler = (couponId, data) => {
     return new Promise((resolve, reject) => {
         API.put(Requests.EDIT_COUPON + couponId)
-        .then((response) => {
-            if(response){
-                resolve(response.data);
-            }
-        })
-        .catch((error) => {
-            reject(error);
-        })
+            .then((response) => {
+                if (response) {
+                    resolve(response.data);
+                }
+            })
+            .catch((error) => {
+                reject(error);
+            })
     })
 }
 
 export const deleteCouponHandler = (couponId) => {
     return new Promise((resolve, reject) => {
         API.delete(Requests.DELETE_COUPON + couponId)
-        .then((deleteResponse) => {
-            if(deleteResponse){
-                resolve(deleteResponse.data);
-            }
-        })
-        .catch((error) => {
-            reject(error);
-        })
+            .then((deleteResponse) => {
+                if (deleteResponse) {
+                    resolve(deleteResponse.data);
+                }
+            })
+            .catch((error) => {
+                reject(error);
+            })
     })
 }

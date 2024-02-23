@@ -76,7 +76,7 @@ const AddProductForm = () => {
             AddProductRequestHandler(dispatch, formData)
                 .then((response) => {
                     if (response) {
-                        toast.success(response);
+                        toast.success(response);                        
                     }
                 })
                 .catch((error) => {
@@ -88,12 +88,10 @@ const AddProductForm = () => {
         }
     }
     const updateBulletDescription = (values) => {
-        setProductBulletDescription(values);
-        console.log(values);
+        setProductBulletDescription(values);        
     }
     const updateDescription = (values) => {
-        setProductDescription(values);
-        console.log(values);
+        setProductDescription(values);        
     }
     return (
         <div className='m-4 p-4'>
@@ -135,7 +133,7 @@ const AddProductForm = () => {
                     </div>
                     <div className='flex flex-col my-6'>
                         <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
-                            Product Name *
+                            Company Name *
                         </span>
                         <div>
                             <select

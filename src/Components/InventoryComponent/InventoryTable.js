@@ -11,8 +11,7 @@ const InventoryTable = ({ products }) => {
                         <th className="px-4 py-2">ID</th>
                         <th className="px-4 py-2">Product Name</th>
                         <th className="px-4 py-2">Product Image</th>
-                        <th className="px-4 py-2">Product Company</th>
-                        <th className="px-4 py-2">Description</th>
+                        <th className="px-4 py-2">Product Company</th>                        
                         <th className="px-4 py-2">Status</th>
                         <th className="px-4 py-2">Created On</th>
                         <th className="px-4 py-2">Actions</th>

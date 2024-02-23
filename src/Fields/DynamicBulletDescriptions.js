@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
-const DynamicDescriptionInputs = ({ updateValues }) => {
-  const [descriptions, setDescriptions] = useState([{ id: 1, value: '' }]);
+const DynamicBulletDescription = ({ existingDescriptions, updateValues }) => {
+  const [descriptions, setDescriptions] = useState(
+    existingDescriptions && existingDescriptions.length > 0 ?
+      existingDescriptions.map((desc, index) => ({ id: index + 1, value: desc.value }))
+      : [{ id: 1, value: '' }]);
 
   const handleAddInput = () => {
     const newId = descriptions.length + 1;
@@ -42,12 +45,14 @@ const DynamicDescriptionInputs = ({ updateValues }) => {
             />
           </div>
           {index === 0 ? (
-            <button className="bg-blue-500 text-white px-3 py-1 rounded-md" onClick={handleAddInput}>
+            <button
+              className="bg-blue-500 text-white px-3 py-1 rounded-md outline-none"
+              onClick={handleAddInput}>
               +
             </button>
           ) : (
             <button
-              className="bg-red-500 text-white px-3 py-1 rounded-md"
+              className="bg-red-500 text-white px-3 py-1 rounded-md outline-none"
               onClick={() => handleRemoveInput(desc.id)}
             >
               &#x2212;
@@ -59,4 +64,4 @@ const DynamicDescriptionInputs = ({ updateValues }) => {
   );
 };
 
-export default DynamicDescriptionInputs;
+export default DynamicBulletDescription;

@@ -3,21 +3,21 @@ import Input from './Input';
 import { FaPlus } from 'react-icons/fa6';
 import { MdDelete } from "react-icons/md";
 
-const DynamicInputs = ({ updateValues }) => {
-    const [inputFields, setInputFields] = useState([{ id: 1 }]);
-    const [inputValues, setInputValues] = useState([]);
+const DynamicInputs = ({ existingOptions, updateValues }) => {
+    const [inputFields, setInputFields] = useState(existingOptions &&existingOptions.length > 0 ? existingOptions.map((option, index) => ({ id: index + 1 })) : []);
+    const [inputValues, setInputValues] = useState(existingOptions);
 
     const handleAddFields = () => {
         const newId = inputFields[inputFields.length - 1].id + 1;
         setInputFields([...inputFields, { id: newId }]);
-        setInputValues([...inputValues, {}]); // Add an empty object for the new fields
+        setInputValues([...inputValues, { option: '', price: '' }]); // Add an empty object for the new fields
     };
 
     const handleInputChange = (index, name, value) => {
         const newInputValues = [...inputValues];
         newInputValues[index] = { ...newInputValues[index], [name]: value };
         setInputValues(newInputValues);
-        updateValues(newInputValues);        
+        updateValues(newInputValues);
     };
 
     const handleDeleteInput = (index) => {
@@ -43,6 +43,7 @@ const DynamicInputs = ({ updateValues }) => {
                             <Input
                                 type="text"
                                 name={`option${input.id}`}
+                                value={inputValues[index]?.option}
                                 onChange={(e) => handleInputChange(index, `option`, e.target.value)}
                                 id={`input${input.id}`}
                                 error={false}
@@ -55,6 +56,7 @@ const DynamicInputs = ({ updateValues }) => {
                             <Input
                                 type="text"
                                 name={`price${input.id}`}
+                                value={inputValues[index]?.price}
                                 onChange={(e) => handleInputChange(index, `price`, e.target.value)}
                                 id={`input${input.id + 1}`}
                                 error={false}

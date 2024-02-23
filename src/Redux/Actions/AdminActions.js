@@ -34,3 +34,10 @@ export const DiscountAction = (response) => {
         payload: response
     }
 }
+
+export const BlogsAction = (response) => {
+    return {
+        type:ActionType.BLOGS,
+        payload:response
+    }
+}

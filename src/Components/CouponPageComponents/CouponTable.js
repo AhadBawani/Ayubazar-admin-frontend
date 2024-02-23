@@ -1,11 +1,11 @@
 import React from 'react';
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
-import { ConfirmationDialogAction } from '../../Redux/Actions/ComponentsAction';
+import { ConfirmationDialogAction, DialogAction } from '../../Redux/Actions/ComponentsAction';
 import { useDispatch } from 'react-redux';
 import useAdminState from '../../Hooks/useAdminState';
 
-const CouponTable = ({ handleEditCoupon }) => {
+const CouponTable = () => {
     const { coupons } = useAdminState();
     const dispatch = useDispatch();
 
@@ -26,10 +26,13 @@ const CouponTable = ({ handleEditCoupon }) => {
         dispatch(
             ConfirmationDialogAction(
                 {
-                    open: true,
-                    id:data?._id,
+                    open: 'coupon',
+                    id: data?._id,
                     body: `Are you sure you want to delete ${data?.coupon} ?`
                 }));
+    }
+    const handleEditCoupon = (coupon) => {
+        dispatch(DialogAction({ open: 'edit-coupon', data: coupon }))
     }
     return (
         <div className="overflow-x-auto">
@@ -52,9 +55,9 @@ const CouponTable = ({ handleEditCoupon }) => {
                                 className={(index % 2 === 0) ? 'bg-gray-100 text-[#4D4D4D]' : 'bg-white text-[#4D4D4D]'}>
                                 <td className="border px-4 py-2">{index + 1}</td>
                                 <td className="border px-4 py-2">{item.coupon}</td>
-                                <td className="border px-4 py-2">{item.percentage} %</td>
-                                <td className="border px-4 py-2">{item.canUse}</td>
-                                <td className="border px-4 py-2">{item.alreadyUsed}</td>
+                                <td className="border text-center px-4 py-2">{item.percentage} %</td>
+                                <td className="border text-center px-4 py-2">{item.canUse}</td>
+                                <td className="border text-center px-4 py-2">{item.alreadyUsed}</td>
                                 <td className="border px-4 py-2">{formatDateString(item.createdAt)}</td>
                                 <td className="border px-4 py-2">
                                     <div className='flex justify-between'>

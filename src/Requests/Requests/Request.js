@@ -13,7 +13,15 @@ const Requests = {
     DISABLE_PRODUCT: url + '/product/disable-product/',
     ENABLE_PRODUCT: url + '/product/enable-product/',
     CREATE_OFFER: url + '/offer/create-offer/',
-    GET_DISCOUNT_OFFER: url + '/offer/'
+    GET_DISCOUNT_OFFER: url + '/offer/',
+    EDIT_PRODUCT: url + '/product/edit-product/',
+    LOGIN_ADMIN_USER: url + '/admin-user/login',
+    VALIDATE_USER: url + '/admin-user/validate',
+    GET_BLOG_IMAGE: url + '/blog-images/',
+    GET_ALL_BLOGS: url + '/blog/',
+    ADD_BLOG: url + '/blog/add-blog',
+    EDIT_BLOG: url + '/blog/edit-blog/',
+    DELETE_BLOG: url + '/blog/delete-blog/'
 }
 
 export default Requests;

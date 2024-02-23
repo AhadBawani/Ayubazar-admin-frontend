@@ -2,10 +2,11 @@ import axios from "axios"
 import Requests from "../Requests/Request"
 import { ProductsAction } from "../../Redux/Actions/AdminActions"
 import API from "../Middlewares/Api"
+import useTokenValidHook from "../../Hooks/useTokenValidHook"
 
 export const AddProductRequestHandler = (dispatch, data) => {
     return new Promise((resolve, reject) => {
-        axios.post(Requests.ADD_PRODUCT, data)
+        API.post(Requests.ADD_PRODUCT, data)
             .then((response) => {
                 if (response.data) {
                     getAllProductRequestHandler(dispatch);
@@ -40,6 +41,7 @@ export const disableProductHandler = (productId, dispatch) => {
             })
             .catch((error) => {
                 const errorMessage = error?.response?.data || 'An error occurred';
+                useTokenValidHook(error);
                 reject(errorMessage);
             })
     })
@@ -51,6 +53,22 @@ export const enableProductHandler = (productId, dispatch) => {
             .then((productResponse) => {
                 if (productResponse) {
                     resolve(productResponse.data);
+                    getAllProductRequestHandler(dispatch);
+                }
+            })
+            .catch((error) => {
+                const errorMessage = error?.response?.data || 'An error occurred';
+                reject(errorMessage);
+            })
+    })
+}
+
+export const editProductHandler = (dispatch, productId, data) => {
+    return new Promise((resolve, reject) => {
+        API.put(Requests.EDIT_PRODUCT + productId, data)
+            .then((updatedResponse) => {
+                if (updatedResponse) {
+                    resolve(updatedResponse.data);
                     getAllProductRequestHandler(dispatch);
                 }
             })

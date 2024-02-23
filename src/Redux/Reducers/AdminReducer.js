@@ -5,11 +5,13 @@ const AdminState = {
     category: null,
     products: null,
     coupons: null,
-    discount: null
+    discount: null,
+    blogs: null
 };
 
 const AdminReducer = (state = AdminState, { type, payload }) => {
     switch (type) {
+
         case ActionType.COMPANY:
             return { ...state, company: payload };
 
@@ -24,6 +26,9 @@ const AdminReducer = (state = AdminState, { type, payload }) => {
 
         case ActionType.OFFERDISCOUNT:
             return { ...state, discount: payload };
+
+        case ActionType.BLOGS:
+            return { ...state, blogs: payload };
 
         default:
             return state;

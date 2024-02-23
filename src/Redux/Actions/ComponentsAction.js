@@ -6,3 +6,10 @@ export const ConfirmationDialogAction = (response) => {
         payload: response
     }
 }
+
+export const DialogAction = (response) => {
+    return {
+        type: ActionType.DIALOG,
+        payload: response
+    }
+}

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 import { useDispatch } from 'react-redux';
+import useComponentState from '../../Hooks/useComponentState';
+import { ConfirmationDialogAction } from '../../Redux/Actions/ComponentsAction';
 import { IoMdClose } from 'react-icons/io';
-import { ConfirmationDialogAction } from '../Redux/Actions/ComponentsAction';
-import useComponentState from '../Hooks/useComponentState';
-import { deleteCouponHandler, getAllCouponHandler } from '../Requests/RequestHandler/CouponRequestHandler';
+import { deleteBlogHandler } from '../../Requests/RequestHandler/BlogRequestHandler';
 import { toast } from 'react-toastify';
 
-const ConfirmationDialog = () => {
+const BlogConfirmationDialog = () => {
     const dispatch = useDispatch();
     const { confirmation } = useComponentState();
 
@@ -15,18 +15,19 @@ const ConfirmationDialog = () => {
     }
 
     const handleDialogConfirmation = () => {
-        deleteCouponHandler(confirmation?.id)
+        console.log('called');
+        deleteBlogHandler(dispatch, confirmation?.id)
             .then((response) => {
                 if (response) {
-                    getAllCouponHandler(dispatch);
                     handleCloseDialog();
-                    toast.success('coupon deleted successfully!');
+                    toast.success('blog deleted successfully!');
                 }
             })
             .catch((error) => {
-                console.log('error in delete coupon : ', error);
+                console.log('error in delete blog : ', error);
             })
     }
+    
     return (
         <div className="w-full m-2 p-2">
             <div className="flex justify-between">
@@ -45,13 +46,13 @@ const ConfirmationDialog = () => {
             </div>
             <div className="mt-6 flex justify-end space-x-4 mr-2">
                 <button
-                    className="px-4 py-2 bg-blue-500 text-white 
+                    className="px-4 py-2 bg-blue-500 text-white outline-none
                     rounded-md hover:bg-blue-600 transition-colors duration-200"
                     onClick={handleDialogConfirmation}>
                     Confirm
                 </button>
                 <button
-                    className="px-4 py-2 bg-gray-300 text-gray-700
+                    className="px-4 py-2 bg-gray-300 text-gray-700 outline-none
                     rounded-md hover:bg-gray-400 transition-colors duration-200"
                     onClick={handleCloseDialog}>
                     Cancel
@@ -61,4 +62,4 @@ const ConfirmationDialog = () => {
     );
 }
 
-export default ConfirmationDialog;
+export default BlogConfirmationDialog

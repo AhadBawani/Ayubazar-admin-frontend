@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const DynamicDescriptionInputs = ({ initialDescriptions, updateValues }) => {
+const DynamicBlogText = ({ initialDescriptions, updateValues, blogTextError, success }) => {
     const [descriptions, setDescriptions] = useState(
         initialDescriptions && initialDescriptions.length > 0 ?
             initialDescriptions.map((desc, index) => ({ id: index + 1, value: desc.value }))
             : [{ id: 1, value: '' }]);
+
+    useEffect(() => {
+        if (success) {
+            setDescriptions([{ id: 1, value: '' }]);
+        }
+    }, [success]);
 
     const handleAddInput = () => {
         const newId = descriptions.length + 1;
@@ -29,14 +35,15 @@ const DynamicDescriptionInputs = ({ initialDescriptions, updateValues }) => {
 
     return (
         <div className="mt-4">
-            <span className="text-[#4D4D4D] text-sm font-semibold mb-2">Product Description</span>
+            <span className="text-[#4D4D4D] text-sm font-semibold mb-2">Blog Description *</span>
             {descriptions.map((desc) => (
                 <div key={desc.id} className="flex mb-2">
                     <textarea
                         defaultValue={desc.value}
                         onChange={(e) => handleInputChange(desc.id, e)}
-                        className="border border-gray-300 p-2 rounded-md mr-2 flex-1 outline-none"
-                        rows={5}
+                        className="p-2 rounded-md mr-2 flex-1 outline-none"
+                        style={blogTextError ? { border: '1px solid red' } : { border: '1px solid #D3D3D3' }}
+                        rows={6}
                     />
                     {desc.id === 1 ? (
                         <button
@@ -58,4 +65,4 @@ const DynamicDescriptionInputs = ({ initialDescriptions, updateValues }) => {
     );
 };
 
-export default DynamicDescriptionInputs;
+export default DynamicBlogText;
