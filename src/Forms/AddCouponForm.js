@@ -77,14 +77,14 @@ const AddCouponForm = () => {
                 })
         }
     }
-    
+
     return (
         <div className='mb-[8.5rem]'>
-            <div
-                className='flex justify-center text-xl font-semibold'>
-                Add Coupon
-            </div>
-            <div className='m-4 p-4'>
+            <div className='p-4'>
+                <div
+                    className='flex justify-center text-xl font-semibold'>
+                    Add Coupon
+                </div>
                 <div className='flex flex-col my-6'>
                     <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                         Coupon Code *
@@ -92,7 +92,7 @@ const AddCouponForm = () => {
                     <Input
                         onChange={onInput}
                         name="coupon"
-                        error={couponFormError.coupon}/>
+                        error={couponFormError.coupon} />
                 </div>
                 <div className='flex flex-col my-6'>
                     <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
@@ -102,7 +102,7 @@ const AddCouponForm = () => {
                         onChange={onInput}
                         name="percentage"
                         type="number"
-                        error={couponFormError.percentage}/>
+                        error={couponFormError.percentage} />
                 </div>
                 <div className='flex flex-col my-6'>
                     <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
@@ -112,7 +112,7 @@ const AddCouponForm = () => {
                         onChange={onInput}
                         name="canUse"
                         type="number"
-                        error={couponFormError.canUse}/>
+                        error={couponFormError.canUse} />
                 </div>
                 <div>
                     <button

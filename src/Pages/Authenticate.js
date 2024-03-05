@@ -64,11 +64,11 @@ const Authenticate = () => {
                 })
                 .catch((error) => {
                     if (error) {
-                        let errorMessage = error?.response?.data?.message;
-                        toast.error(errorMessage);
-                        if (errorMessage === 'User not found!') {
+                        if (error?.message === 'User not found!') {
                             newErrors.email = true;
+                            newErrors.password = true;
                             setErrors(newErrors);
+                            toast.error(error?.message);
                         }
                     }
                 })

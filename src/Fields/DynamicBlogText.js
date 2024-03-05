@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-const DynamicBlogText = ({ initialDescriptions, updateValues, blogTextError, success }) => {
+const DynamicBlogText = ({ initialDescriptions, updateValues, blogTextError }) => {
     const [descriptions, setDescriptions] = useState(
         initialDescriptions && initialDescriptions.length > 0 ?
             initialDescriptions.map((desc, index) => ({ id: index + 1, value: desc.value }))
             : [{ id: 1, value: '' }]);
-
-    useEffect(() => {
-        if (success) {
-            setDescriptions([{ id: 1, value: '' }]);
-        }
-    }, [success]);
-
+    
     const handleAddInput = () => {
         const newId = descriptions.length + 1;
         setDescriptions([...descriptions, { id: newId, value: '' }]);

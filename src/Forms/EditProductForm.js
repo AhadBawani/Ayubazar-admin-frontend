@@ -147,7 +147,7 @@ const EditProductForm = ({ product }) => {
                     />
                 </div>
 
-                <div>
+                <div className='w-1/3'>
                     <div className='flex flex-col my-6'>
                         <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                             Product Name *

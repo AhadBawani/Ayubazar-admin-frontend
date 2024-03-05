@@ -70,6 +70,11 @@ const Dropdown = ({ navigate }) => {
                             onClick={() => handleNavigation('/create-offer')}>
                             Create Offer
                         </li>
+                        <li className="py-2 px-4
+                         hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleNavigation('/contact-us')}>
+                            Contact Us
+                        </li>
                     </ul>
                 </div>
             )}

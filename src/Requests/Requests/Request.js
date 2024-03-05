@@ -21,7 +21,10 @@ const Requests = {
     GET_ALL_BLOGS: url + '/blog/',
     ADD_BLOG: url + '/blog/add-blog',
     EDIT_BLOG: url + '/blog/edit-blog/',
-    DELETE_BLOG: url + '/blog/delete-blog/'
+    DELETE_BLOG: url + '/blog/delete-blog/',
+    ADD_CATEGORY: url + '/category',
+    GET_ALL_CATEGORIES : url + '/category',
+    GET_ALL_CONTACTS : url + '/contact'
 }
 
 export default Requests;

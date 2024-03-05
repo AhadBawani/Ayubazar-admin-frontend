@@ -25,6 +25,9 @@ import EditCouponDialog from '../Components/DialogBoxes/EditCouponDialog';
 import EditBlogDialog from '../Components/BlogsPageComponents/EditBlogDialog';
 import { getAllBlogsHandler } from '../Requests/RequestHandler/BlogRequestHandler';
 import BlogConfirmationDialog from '../Components/BlogsPageComponents/BlogConfirmationDialog';
+import { getAllCategoryHandler } from '../Requests/RequestHandler/CategoryRequestHandler';
+import ContactUs from '../Pages/ContactUs';
+import ScrollToTop from '../Pages/ScrollToTop';
 
 const Routing = () => {
     const { user } = useUserState();
@@ -33,12 +36,15 @@ const Routing = () => {
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        getAllProductRequestHandler(dispatch);
-        getOfferDiscountHandler(dispatch);
-        getAllCompanyHandler(dispatch);
-        getAllCouponHandler(dispatch);
-        getAllBlogsHandler(dispatch);
-    }, [dispatch])
+        if (user) {
+            getAllProductRequestHandler(dispatch);
+            getOfferDiscountHandler(dispatch);
+            getAllCompanyHandler(dispatch);
+            getAllCouponHandler(dispatch);
+            getAllBlogsHandler(dispatch);
+            getAllCategoryHandler(dispatch);
+        }
+    }, [dispatch, user])
 
     useEffect(() => {
         if (!user) {
@@ -48,7 +54,8 @@ const Routing = () => {
     return (
         <>
             <BrowserRouter>
-                <div className="fixed h-[70px] top-0 left-0 w-full bg-white shadow-md z-50">
+                <ScrollToTop />
+                <div className="fixed h-[80px] top-0 left-0 w-full bg-white shadow-md z-50">
                     <Header />
                 </div>
                 <div className='mt-20'>
@@ -65,6 +72,7 @@ const Routing = () => {
                                     <Route path='/blogs' element={<Blogs />} />
                                     <Route path='/inventory' element={<Inventory />} />
                                     <Route path='/create-offer' element={<CreateOffer />} />
+                                    <Route path='/contact-us' element={<ContactUs />} />
                                     <Route path='*' element={<Navigate to={'/home'} />} />
                                 </>
                                 :

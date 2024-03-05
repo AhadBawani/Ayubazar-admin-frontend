@@ -126,7 +126,7 @@ const AddBlogForm = () => {
                             rows={3} style={formError.blogTitle ? { border: '1px solid red' } : { border: '1px solid #D3D3D3' }} />
                     </div>
                     <div className='my-4'>
-                        <DynamicBlogText updateValues={handleDescriptionUpdate} blogTextError={formError.blogText} success={success}/>
+                        <DynamicBlogText updateValues={handleDescriptionUpdate} blogTextError={formError.blogText} initialDescriptions={success && []}/>
                     </div>
                 </div>
                 <button

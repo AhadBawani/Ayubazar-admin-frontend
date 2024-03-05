@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({ type, onChange, name, error, id, ...props }) => {
+const Input = ({ type, onChange, name, error, id, bgColor,...props }) => {
     const borderColor = error ? 'red' : '#d3d3d3';
 
     // Calculate the current date in the format YYYY-MM-DD
@@ -12,7 +12,7 @@ const Input = ({ type, onChange, name, error, id, ...props }) => {
     return (
         <input
             className='p-2 rounded-lg w-full outline-none'
-            style={{ border: `1px solid ${borderColor}` }}
+            style={{ border: `1px solid ${borderColor}`, backgroundColor:bgColor }}
             type={type}
             autoComplete={false}
             onChange={onChange}

@@ -3,14 +3,14 @@ import Input from './Input';
 import { FaPlus } from 'react-icons/fa6';
 import { MdDelete } from "react-icons/md";
 
-const DynamicInputs = ({ existingOptions, updateValues }) => {
-    const [inputFields, setInputFields] = useState(existingOptions &&existingOptions.length > 0 ? existingOptions.map((option, index) => ({ id: index + 1 })) : []);
+const DynamicInputs = ({ existingOptions = [], updateValues }) => {
+    const [inputFields, setInputFields] = useState(existingOptions.length > 0 ? existingOptions.map((option, index) => ({ id: index + 1 })) : [{ id: 1 }]);
     const [inputValues, setInputValues] = useState(existingOptions);
 
     const handleAddFields = () => {
         const newId = inputFields[inputFields.length - 1].id + 1;
         setInputFields([...inputFields, { id: newId }]);
-        setInputValues([...inputValues, { option: '', price: '' }]); // Add an empty object for the new fields
+        setInputValues([...inputValues, { option: '', price: '' }]);
     };
 
     const handleInputChange = (index, name, value) => {
@@ -63,21 +63,15 @@ const DynamicInputs = ({ existingOptions, updateValues }) => {
                             />
                         </div>
                         <div className='mt-7'>
-                            {
-                                index === 0
-                                    ?
-                                    <>
-                                        <button className="p-3 h-[40px] bg-blue-500 text-white rounded outline-none" onClick={handleAddFields}>
-                                            <FaPlus />
-                                        </button>
-                                    </>
-                                    :
-                                    <>
-                                        <button className="p-3 h-[40px] bg-red-500 text-white rounded outline-none" onClick={() => handleDeleteInput(index)}>
-                                            <MdDelete />
-                                        </button>
-                                    </>
-                            }
+                            {index === 0 ? (
+                                <button className="p-3 h-[40px] bg-blue-500 text-white rounded outline-none" onClick={handleAddFields}>
+                                    <FaPlus />
+                                </button>
+                            ) : (
+                                <button className="p-3 h-[40px] bg-red-500 text-white rounded outline-none" onClick={() => handleDeleteInput(index)}>
+                                    <MdDelete />
+                                </button>
+                            )}
                         </div>
                     </div>
                 ))}
