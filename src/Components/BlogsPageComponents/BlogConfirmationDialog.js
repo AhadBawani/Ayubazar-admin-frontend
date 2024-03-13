@@ -14,8 +14,7 @@ const BlogConfirmationDialog = () => {
         dispatch(ConfirmationDialogAction(false));
     }
 
-    const handleDialogConfirmation = () => {
-        console.log('called');
+    const handleDialogConfirmation = () => {        
         deleteBlogHandler(dispatch, confirmation?.id)
             .then((response) => {
                 if (response) {

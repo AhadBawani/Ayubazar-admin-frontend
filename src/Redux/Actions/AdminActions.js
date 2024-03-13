@@ -37,7 +37,21 @@ export const DiscountAction = (response) => {
 
 export const BlogsAction = (response) => {
     return {
-        type:ActionType.BLOGS,
-        payload:response
+        type: ActionType.BLOGS,
+        payload: response
+    }
+}
+
+export const OrdersAction = (response) => {
+    return {
+        type: ActionType.ORDERS,
+        payload: response
+    }
+}
+
+export const OrderAction = (response) => {
+    return {
+        type: ActionType.ORDER,
+        payload: response
     }
 }

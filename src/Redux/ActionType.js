@@ -8,7 +8,9 @@ const ActionType = {
     DIALOG: "DIALOG",
     USER:"USER",
     TOKEN:"TOKEN",
-    BLOGS:"BLOGS"
+    BLOGS:"BLOGS",
+    ORDERS:"ORDERS",
+    ORDER:"ORDER"
 }
 
 export default ActionType;

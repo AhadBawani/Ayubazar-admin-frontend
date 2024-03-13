@@ -28,6 +28,7 @@ import BlogConfirmationDialog from '../Components/BlogsPageComponents/BlogConfir
 import { getAllCategoryHandler } from '../Requests/RequestHandler/CategoryRequestHandler';
 import ContactUs from '../Pages/ContactUs';
 import ScrollToTop from '../Pages/ScrollToTop';
+import { getAllOrdersHandler } from '../Requests/RequestHandler/OrdersRequestHandler';
 
 const Routing = () => {
     const { user } = useUserState();
@@ -43,6 +44,7 @@ const Routing = () => {
             getAllCouponHandler(dispatch);
             getAllBlogsHandler(dispatch);
             getAllCategoryHandler(dispatch);
+            getAllOrdersHandler(dispatch);
         }
     }, [dispatch, user])
 
@@ -66,7 +68,7 @@ const Routing = () => {
                                 <>
                                     <Route path='/home' element={<Home />} />
                                     <Route path='/add-product' element={<AddProduct />} />
-                                    <Route path='/orders' element={<Orders />} />
+                                    <Route path='/orders' element={<Orders />} />                                    
                                     <Route path='/reports' element={<Reports />} />
                                     <Route path='/coupons' element={<Coupons />} />
                                     <Route path='/blogs' element={<Blogs />} />

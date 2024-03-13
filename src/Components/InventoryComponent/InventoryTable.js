@@ -1,8 +1,10 @@
 import React from 'react'
 import InventoryTableRow from './InventoryTableRow'
+import { useNavigate } from 'react-router-dom'
 
 
 const InventoryTable = ({ products }) => {
+    const navigate = useNavigate();
     return (
         <>
             <div className='flex justify-end items-end pt-4 pr-4'>
@@ -14,8 +16,9 @@ const InventoryTable = ({ products }) => {
                         fontSize: '12px'
                     }}
                     className='w-[15%] uppercase font-bold bg-[#027148] hover:bg-[#013220]
-                    text-white p-2 rounded-md transition-all ease-in-out duration-200'>
-                    Add Product +
+                    text-white p-2 rounded-md transition-all ease-in-out duration-200' 
+                    onClick={() => navigate('/add-product')}>
+                    + Add Product
                 </button>
             </div>
             <div className="overflow-x-auto">

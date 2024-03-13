@@ -6,7 +6,9 @@ const AdminState = {
     products: null,
     coupons: null,
     discount: null,
-    blogs: null
+    blogs: null,
+    orders: null,
+    order: null
 };
 
 const AdminReducer = (state = AdminState, { type, payload }) => {
@@ -29,6 +31,12 @@ const AdminReducer = (state = AdminState, { type, payload }) => {
 
         case ActionType.BLOGS:
             return { ...state, blogs: payload };
+
+        case ActionType.ORDERS:
+            return { ...state, orders: payload };
+
+        case ActionType.ORDER:
+            return { ...state, order: payload };
 
         default:
             return state;

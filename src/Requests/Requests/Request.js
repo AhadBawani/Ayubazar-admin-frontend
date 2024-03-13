@@ -23,8 +23,18 @@ const Requests = {
     EDIT_BLOG: url + '/blog/edit-blog/',
     DELETE_BLOG: url + '/blog/delete-blog/',
     ADD_CATEGORY: url + '/category',
-    GET_ALL_CATEGORIES : url + '/category',
-    GET_ALL_CONTACTS : url + '/contact'
+    GET_ALL_CATEGORIES: url + '/category',
+    GET_ALL_CONTACTS: url + '/contact',
+    GET_ALL_ORDERS: url + '/admin-orders',
+    ORDER_READY_FOR_DELIVER: url + '/admin-orders/',
+    DELETE_ORDER: url + '/admin-orders/delete-order/',
+    GET_ALL_CANCEL_REQUEST_ORDERS: url + '/admin-orders/cancel-orders',
+    GET_ALL_ON_THE_WAY_ORDERS: url + '/admin-orders/on-the-way-orders',
+    ACCEPT_ORDER_CANCEL_REQUEST: url + '/admin-orders/accept-cancel-order/',
+    REJECT_ORDER_CANCEL_REQUEST: url + '/admin-orders/reject-cancel-order/',
+    ORDER_DELIVERED: url + '/admin-orders/order-delivered/',
+    ORDER_DETAILS_IN_EXCEL: url + '/admin-orders/orders-detail-in-excel/',
+    ORDER_EXCEL_DETAILS: url + '/admin-orders/order-excel-details',
 }
 
 export default Requests;
