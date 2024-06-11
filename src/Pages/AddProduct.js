@@ -1,0 +1,35 @@
+import React, { useEffect } from 'react'
+import AddCompany from './AddCompany';
+import AddCategory from './AddCategory';
+import { useDispatch } from 'react-redux';
+import { getAllCompanyHandler } from '../Requests/RequestHandler/CompanyRequestHandler';
+import AddProductForm from '../Forms/AddProductForm';
+import AddProductExcel from '../Forms/AddProductExcel';
+
+const AddProduct = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        getAllCompanyHandler(dispatch);
+    }, [dispatch])
+    return (
+        <>
+            <div className='grid grid-cols-2 h-full'>
+                <div>
+                    <AddCompany />
+                    <hr className='my-4' />
+                    <AddCategory />
+                </div>
+                <div className='flex flex-col justify-center border-l border-gray-400'>
+                    <div>
+                        <AddProductForm />
+                    </div>
+                    <div>
+                        <AddProductExcel />
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default AddProduct;
