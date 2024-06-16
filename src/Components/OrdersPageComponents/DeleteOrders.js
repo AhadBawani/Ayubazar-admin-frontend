@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { formatDateString } from '../../Utils/FormateDate';
 import useAdminState from '../../Hooks/useAdminState';
 import ShowOrderDetails from '../../Pages/ShowOrderDetails';
+import { getAllDeletedOrdersHandler } from '../../Requests/RequestHandler/OrdersRequestHandler';
+import { useDispatch } from 'react-redux';
 
-const DeleteOrders = () => {
-  const [data, setData] = useState();
+const DeleteOrders = () => {  
   const [order, setOrder] = useState();
-  const { orders } = useAdminState();
+  const dispatch = useDispatch();
+  const { currentOrders } = useAdminState();
 
   useEffect(() => {
-    if (orders?.length > 0) {
-      let result = orders?.filter((order) => order?.status === 'on-the-way' && order?.delete === false);
-      setData(result);
-    }
-  }, [orders])
+    getAllDeletedOrdersHandler(dispatch);
+  }, [dispatch])
 
   const handleShowOrder = (order) => {
     setOrder(order);
@@ -43,7 +42,7 @@ const DeleteOrders = () => {
                 </thead>
                 <tbody>
                   {
-                    data?.length > 0 && data?.map((order, index) => {
+                    currentOrders?.length > 0 && currentOrders?.map((order, index) => {
                       const products = JSON.parse(order?.products);
                       return <>
                         <tr key={order._id} onClick={() => handleShowOrder(order)}

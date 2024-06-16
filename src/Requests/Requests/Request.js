@@ -1,7 +1,11 @@
 const url = 'http://localhost:5000';
+// const url = 'https://api.ayubazar.in/';
 
 const Requests = {
     GET_ALL_COMPANY: url + '/company',
+    GET_ALL_COMPANIES_ONLY: url + '/company/admin-companies',
+    GET_COMPANY_IMAGES: url + '/company-images/',
+    EDIT_COMPANY: url + '/company/',
     ADD_COMPANY: url + '/company',
     ADD_PRODUCT: url + '/product',
     GET_ALL_PRODUCTS: url + '/product',
@@ -30,11 +34,19 @@ const Requests = {
     DELETE_ORDER: url + '/admin-orders/delete-order/',
     GET_ALL_CANCEL_REQUEST_ORDERS: url + '/admin-orders/cancel-orders',
     GET_ALL_ON_THE_WAY_ORDERS: url + '/admin-orders/on-the-way-orders',
+    GET_DELETED_ORDERS: url + '/admin-orders/deleted-orders',
     ACCEPT_ORDER_CANCEL_REQUEST: url + '/admin-orders/accept-cancel-order/',
     REJECT_ORDER_CANCEL_REQUEST: url + '/admin-orders/reject-cancel-order/',
     ORDER_DELIVERED: url + '/admin-orders/order-delivered/',
     ORDER_DETAILS_IN_EXCEL: url + '/admin-orders/orders-detail-in-excel/',
     ORDER_EXCEL_DETAILS: url + '/admin-orders/order-excel-details',
+    GET_MONTHLY_REPORT: url + '/admin-orders/get-monthly-report',
+    ADD_PRODUCTS_THROUGH_EXCEL: url + '/product/add-products-through-excel',
+    BEST_SALING_PRODUCT: url + '/product/best-selling-product/',
+    TOGGLE_PRODUCT_COD: url + '/product/product-cod-available/',
+    GET_ALL_REVIEWS: url + '/review/get-all-review',
+    ADD_ADMIN_REVIEW: url + '/review/add-review-by-admin',
+    DELETE_PRODUCT_REVIEW : url + '/review/delete-review/'
 }
 
 export default Requests;

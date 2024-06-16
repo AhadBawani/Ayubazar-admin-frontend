@@ -4,6 +4,7 @@ import AddCategory from './AddCategory';
 import { useDispatch } from 'react-redux';
 import { getAllCompanyHandler } from '../Requests/RequestHandler/CompanyRequestHandler';
 import AddProductForm from '../Forms/AddProductForm';
+import AddProductExcel from '../Forms/AddProductExcel';
 
 const AddProduct = () => {
     const dispatch = useDispatch();
@@ -18,8 +19,13 @@ const AddProduct = () => {
                     <hr className='my-4' />
                     <AddCategory />
                 </div>
-                <div className='flex justify-center border-l border-gray-400'>
-                    <AddProductForm />
+                <div className='flex flex-col justify-center border-l border-gray-400'>
+                    <div>
+                        <AddProductForm />
+                    </div>
+                    <div>
+                        <AddProductExcel />
+                    </div>
                 </div>
             </div>
         </>

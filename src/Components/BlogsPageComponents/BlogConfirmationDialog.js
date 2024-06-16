@@ -14,7 +14,7 @@ const BlogConfirmationDialog = () => {
         dispatch(ConfirmationDialogAction(false));
     }
 
-    const handleDialogConfirmation = () => {        
+    const handleDialogConfirmation = () => {
         deleteBlogHandler(dispatch, confirmation?.id)
             .then((response) => {
                 if (response) {
@@ -26,7 +26,7 @@ const BlogConfirmationDialog = () => {
                 console.log('error in delete blog : ', error);
             })
     }
-    
+
     return (
         <div className="w-full m-2 p-2">
             <div className="flex justify-between">

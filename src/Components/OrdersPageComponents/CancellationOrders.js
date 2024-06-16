@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { getAllCancelRequestOrderHandler } from '../../Requests/RequestHandler/OrdersRequestHandler';
 import { formatDateString } from '../../Utils/FormateDate';
 import ShowOrderDetails from '../../Pages/ShowOrderDetails';
+import { useDispatch } from 'react-redux';
+import useAdminState from '../../Hooks/useAdminState';
 
-const CancellationOrders = () => {  
+const CancellationOrders = () => {
   const [order, setOrder] = useState();
-  const [orders, setOrders] = useState([]);
-
+  const dispatch = useDispatch();
+  const { currentOrders } = useAdminState();
 
   useEffect(() => {
-    getAllCancelRequestOrderHandler()
-      .then((ordersResponse) => {
-        setOrders(ordersResponse);
-      })
-      .catch((error) => {
-        console.log('error in getting all the cancel request orders handler : ', error);
-      })
-  }, [])
+    getAllCancelRequestOrderHandler(dispatch);
+  }, [dispatch])
 
 
   const handleShowOrder = (order) => {
@@ -28,7 +24,7 @@ const CancellationOrders = () => {
         order
           ?
           <>
-            <ShowOrderDetails order={order} setOrder={setOrder} state='request-for-cancel'/>
+            <ShowOrderDetails order={order} setOrder={setOrder} state='request-for-cancel' />
           </>
           :
           <>
@@ -47,7 +43,7 @@ const CancellationOrders = () => {
                 </thead>
                 <tbody>
                   {
-                    orders?.length > 0 && orders?.map((order, index) => {
+                    currentOrders?.length > 0 && currentOrders?.map((order, index) => {
                       const products = JSON.parse(order?.products);
                       return <>
                         <tr key={order._id} onClick={() => handleShowOrder(order)}

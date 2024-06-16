@@ -46,11 +46,7 @@ const OrdersToExcel = () => {
 
           if (valid) {
                OrdersToExcelHandler(fromOrderId, toOrderId)
-                    .then((blobData) => {
-                         if (!(blobData instanceof Blob)) {
-                              throw new Error('Data is not a Blob');
-                         }
-
+                    .then((blobData) => {                         
                          const url = window.URL.createObjectURL(blobData);
                          const a = document.createElement('a');
                          a.href = url;
@@ -64,6 +60,7 @@ const OrdersToExcel = () => {
                          console.error('Error converting orders to Excel: ', error);
                          toast.error('Error converting orders to Excel');
                     });
+
           }
           else {
                setErrors(newErrors);

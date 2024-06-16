@@ -7,6 +7,13 @@ export const CompanyAction = (response) => {
     }
 }
 
+export const CompaniesAction = (response) => {
+    return {
+        type: ActionType.COMPANIES,
+        payload: response
+    }
+}
+
 export const CategoryAction = (response) => {
     return {
         type: ActionType.CATEGORY,
@@ -52,6 +59,27 @@ export const OrdersAction = (response) => {
 export const OrderAction = (response) => {
     return {
         type: ActionType.ORDER,
+        payload: response
+    }
+}
+
+export const ReportAction = (response) => {
+    return {
+        type: ActionType.REPORT,
+        payload: response
+    }
+}
+
+export const CurrentOrderAction = (response) => {
+    return {
+        type: ActionType.CURRENTORDERS,
+        payload: response
+    }
+}
+
+export const ReviewsAction = (response) => {
+    return {
+        type: ActionType.REVIEWS,
         payload: response
     }
 }

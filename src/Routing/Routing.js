@@ -16,7 +16,7 @@ import { getAllProductRequestHandler } from '../Requests/RequestHandler/ProductR
 import { useDispatch } from 'react-redux';
 import { getOfferDiscountHandler } from '../Requests/RequestHandler/OfferDiscountHandler';
 import EditProductDialog from '../Components/DialogBoxes/EditProductDialog';
-import { getAllCompanyHandler } from '../Requests/RequestHandler/CompanyRequestHandler';
+import { getAllCompaniesOnlyHandler, getAllCompanyHandler } from '../Requests/RequestHandler/CompanyRequestHandler';
 import Authenticate from '../Pages/Authenticate';
 import { validateAdminUserHandler } from '../Requests/RequestHandler/AdminUserRequestHandler';
 import useUserState from '../Hooks/useUserState';
@@ -28,7 +28,12 @@ import BlogConfirmationDialog from '../Components/BlogsPageComponents/BlogConfir
 import { getAllCategoryHandler } from '../Requests/RequestHandler/CategoryRequestHandler';
 import ContactUs from '../Pages/ContactUs';
 import ScrollToTop from '../Pages/ScrollToTop';
-import { getAllOrdersHandler } from '../Requests/RequestHandler/OrdersRequestHandler';
+import { getAllOrdersHandler, monthlyOrderReport } from '../Requests/RequestHandler/OrdersRequestHandler';
+import Companies from '../Pages/Companies';
+import Reviews from '../Pages/Reviews';
+import ProductReviewDialog from '../Components/ReviewsComponents/Dialogs/ProductReviewDialog';
+import ProductReviewDeleteDialog from '../Components/ReviewsComponents/Dialogs/ProductReviewDeleteDialog';
+import { getAllProductsReviewHandler } from '../Requests/RequestHandler/ReviewsRequestHandler';
 
 const Routing = () => {
     const { user } = useUserState();
@@ -41,10 +46,13 @@ const Routing = () => {
             getAllProductRequestHandler(dispatch);
             getOfferDiscountHandler(dispatch);
             getAllCompanyHandler(dispatch);
+            getAllCompaniesOnlyHandler(dispatch);
             getAllCouponHandler(dispatch);
             getAllBlogsHandler(dispatch);
             getAllCategoryHandler(dispatch);
             getAllOrdersHandler(dispatch);
+            monthlyOrderReport(dispatch);
+            getAllProductsReviewHandler(dispatch);
         }
     }, [dispatch, user])
 
@@ -68,10 +76,12 @@ const Routing = () => {
                                 <>
                                     <Route path='/home' element={<Home />} />
                                     <Route path='/add-product' element={<AddProduct />} />
-                                    <Route path='/orders' element={<Orders />} />                                    
+                                    <Route path='/orders' element={<Orders />} />
                                     <Route path='/reports' element={<Reports />} />
                                     <Route path='/coupons' element={<Coupons />} />
+                                    <Route path='/reviews' element={<Reviews />} />
                                     <Route path='/blogs' element={<Blogs />} />
+                                    <Route path='/companies' element={<Companies />} />
                                     <Route path='/inventory' element={<Inventory />} />
                                     <Route path='/create-offer' element={<CreateOffer />} />
                                     <Route path='/contact-us' element={<ContactUs />} />
@@ -104,6 +114,15 @@ const Routing = () => {
                             </div>
                         </div>
                     }
+                    {
+                        confirmation?.open === 'review'
+                        &&
+                        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm flex justify-center items-center">
+                            <div className="bg-white rounded-md h-auto w-auto transition-all ease-in-out duration-200">
+                                <ProductReviewDeleteDialog />
+                            </div>
+                        </div>
+                    }
                 </div>
                 {
                     dialog?.open === 'edit-product'
@@ -120,6 +139,15 @@ const Routing = () => {
                     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm flex justify-center items-center">
                         <div className="bg-white rounded-md h-auto w-auto">
                             <EditCouponDialog />
+                        </div>
+                    </div>
+                }
+                {
+                    dialog?.open === 'add-review'
+                    &&
+                    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm flex justify-center items-center">
+                        <div className="bg-white rounded-md h-auto w-auto">
+                            <ProductReviewDialog />
                         </div>
                     </div>
                 }

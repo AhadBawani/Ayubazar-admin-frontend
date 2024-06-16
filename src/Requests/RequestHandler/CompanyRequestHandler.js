@@ -1,6 +1,8 @@
 import axios from "axios";
 import Request from '../Requests/Request';
-import { CompanyAction } from "../../Redux/Actions/AdminActions";
+import { CompaniesAction, CompanyAction } from "../../Redux/Actions/AdminActions";
+import Requests from "../Requests/Request";
+import API from "../Middlewares/Api";
 
 export const getAllCompanyHandler = (dispatch) => {
     axios.get(Request.GET_ALL_COMPANY)
@@ -12,10 +14,24 @@ export const getAllCompanyHandler = (dispatch) => {
         })
 }
 
-export const addCompanyHandler = (dispatch, data) => {    
+export const getAllCompaniesOnlyHandler = (dispatch) => {
+    axios.get(Request.GET_ALL_COMPANIES_ONLY)
+        .then((response) => {
+            dispatch(CompaniesAction(response.data));
+        })
+        .catch((error) => {
+            console.log('error in get all company request handler : ', error);
+        })
+}
+
+export const addCompanyHandler = (dispatch, data) => {
     return new Promise((resolve, reject) => {
-        axios.post(Request.ADD_COMPANY, data)
-            .then((response) => {                
+        API.post(Requests.ADD_COMPANY, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then((response) => {
                 if (response.data) {
                     getAllCompanyHandler(dispatch);
                     resolve(response.data?.message);
@@ -23,7 +39,27 @@ export const addCompanyHandler = (dispatch, data) => {
             })
             .catch((loginError) => {
                 const errorMessage = loginError?.response?.data || 'An error occurred';
-                reject(errorMessage); // Rejecting with the error message
+                reject(errorMessage);
+            })
+    })
+}
+
+export const editCompanyHandler = (dispatch, companyId, companyData) => {
+    return new Promise((resolve, reject) => {
+        API.put(Request.EDIT_COMPANY + companyId, companyData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then((response) => {
+                if (response.data) {
+                    getAllCompanyHandler(dispatch);
+                    resolve(response.data?.message);
+                }
+            })
+            .catch((loginError) => {
+                const errorMessage = loginError?.response?.data || 'An error occurred';
+                reject(errorMessage);
             })
     })
 }

@@ -10,12 +10,16 @@ const DynamicInputs = ({ existingOptions = [], updateValues }) => {
     const handleAddFields = () => {
         const newId = inputFields[inputFields.length - 1].id + 1;
         setInputFields([...inputFields, { id: newId }]);
-        setInputValues([...inputValues, { option: '', price: '' }]);
+        setInputValues([...inputValues, { option: '', price: '', quantity: null }]);
     };
 
     const handleInputChange = (index, name, value) => {
         const newInputValues = [...inputValues];
-        newInputValues[index] = { ...newInputValues[index], [name]: value };
+        if (name === 'quantity') {
+            newInputValues[index] = { ...newInputValues[index], [name]: parseInt(value) };
+        } else {
+            newInputValues[index] = { ...newInputValues[index], [name]: value };
+        }
         setInputValues(newInputValues);
         updateValues(newInputValues);
     };
@@ -58,6 +62,19 @@ const DynamicInputs = ({ existingOptions = [], updateValues }) => {
                                 name={`price${input.id}`}
                                 value={inputValues[index]?.price}
                                 onChange={(e) => handleInputChange(index, `price`, e.target.value)}
+                                id={`input${input.id + 1}`}
+                                error={false}
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[#4D4D4D] text-sm font-semibold mb-2">
+                                Option Quantity
+                            </span>
+                            <Input
+                                type="text"
+                                name={`quantity${input.id}`}
+                                value={inputValues[index]?.quantity}
+                                onChange={(e) => handleInputChange(index, `quantity`, e.target.value)}
                                 id={`input${input.id + 1}`}
                                 error={false}
                             />

@@ -3,7 +3,7 @@ import useComponentState from '../../../Hooks/useComponentState';
 import { useDispatch } from 'react-redux';
 import { IoMdClose } from 'react-icons/io';
 import { DialogAction } from '../../../Redux/Actions/ComponentsAction';
-import { OrderReadyForDeliverHandler, acceptOrderCancelRequestHandler, deleteOrderHandler, orderDeliveredHandler, rejectOrderCancelRequestHandler } from '../../../Requests/RequestHandler/OrdersRequestHandler';
+import { OrderReadyForDeliverHandler, acceptOrderCancelRequestHandler, deleteOrderHandler, getAllCancelRequestOrderHandler, getAllOnTheWayOrdersHandler, getAllOrdersHandler, orderDeliveredHandler, rejectOrderCancelRequestHandler } from '../../../Requests/RequestHandler/OrdersRequestHandler';
 import { toast } from 'react-toastify';
 
 const ConfirmationDialog = () => {
@@ -27,6 +27,7 @@ const ConfirmationDialog = () => {
                deleteOrderHandler(dialog?.data)
                     .then((response) => {
                          if (response) {
+                              getAllOrdersHandler(dispatch);
                               dialog?.setState(null);
                               dispatch(DialogAction(null));
                               toast.success('Order deleted successfully!');
@@ -40,6 +41,7 @@ const ConfirmationDialog = () => {
                acceptOrderCancelRequestHandler(dialog?.data)
                     .then((response) => {
                          if (response) {
+                              getAllCancelRequestOrderHandler(dispatch);
                               dialog?.setState(null);
                               dispatch(DialogAction(null));
                               toast.success('Request accepted successfully!');
@@ -53,6 +55,7 @@ const ConfirmationDialog = () => {
                rejectOrderCancelRequestHandler(dialog?.data)
                     .then((response) => {
                          if (response) {
+                              getAllCancelRequestOrderHandler(dispatch);
                               dialog?.setState(null);
                               dispatch(DialogAction(null));
                               toast.success('Request rejected successfully!');
@@ -66,6 +69,7 @@ const ConfirmationDialog = () => {
                orderDeliveredHandler(dialog?.data)
                     .then((response) => {
                          if (response) {
+                              getAllOnTheWayOrdersHandler(dispatch);
                               dialog?.setState(null);
                               dispatch(DialogAction(null));
                               toast.success('Status updated successfully!');

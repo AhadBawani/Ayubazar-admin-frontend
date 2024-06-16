@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react'
-import Requests from '../Requests/Requests/Request';
+import React, { useState } from 'react'
 import DynamicDescriptionInputs from '../Fields/DynamicDescriptionInputs';
 import DynamicInputs from '../Fields/DynamicInputs';
 import DynamicBulletDescription from '../Fields/DynamicBulletDescriptions';
@@ -8,47 +7,34 @@ import { toast } from 'react-toastify';
 import { editProductHandler } from '../Requests/RequestHandler/ProductRequestHandler';
 import { useDispatch } from 'react-redux';
 import { DialogAction } from '../Redux/Actions/ComponentsAction';
+import Input from '../Fields/Input';
+import DynamicImageInputs from '../Fields/DynamicImageInputs';
 
 const EditProductForm = ({ product }) => {
     const { company } = useAdminState();
-    const fileInputRef = useRef(null);
     const dispatch = useDispatch();
     const [descriptions, setDescriptions] = useState(product?.description);
     const [bulletDescription, setBulletDescription] = useState(product?.bulletDescription);
     const [productOptions, setProductOptions] = useState(product?.options);
-    const [imageChange, setImageChange] = useState(false);
+    const [selectedImages, setSelectedImages] = useState([product?.productImage]);
     const [formError, setFormError] = useState({
         productName: false,
         productCompany: false
     });
-    const [productImage, setProductImage] = useState(product?.productImage);
     const [formValue, setFormValue] = useState({
         productName: product?.productName || null,
-        productCompany: product?.productCompany?._id || null
+        productCompany: product?.productCompany?._id || null,
+        taxClass: product?.taxClass || null,
+        taxStatus: product?.taxStatus || null
     });
-    const [productImageError, setProductImageError] = useState(false);
 
     const onInput = (e) => {
         setFormValue({ ...formValue, [e.target.name]: e.target.value })
     }
 
-    const handleFileUpload = () => {
-        fileInputRef.current.click();
-    };
-    const handleFileChange = (event) => {
-        setProductImage(event.target.files[0]);
-        setProductImageError(false);
-        setImageChange(true);
-    };
-
     const validate = () => {
         let valid = true;
         const newErrors = { ...formError };
-
-        if (!productImage) {
-            setProductImageError(true);
-            valid = false;
-        }
 
         if (!formValue.productName) {
             newErrors.productName = true;
@@ -100,12 +86,15 @@ const EditProductForm = ({ product }) => {
         if (result) {
             const formData = new FormData();
             formData.append('productName', formValue.productName.trim());
-            formData.append('productImage', productImage);
+            selectedImages.forEach((image, index) => {
+                formData.append(`productImages`, image);
+            });
             formData.append('productCompany', formValue.productCompany);
+            formData.append('taxStatus', formValue.taxStatus);
+            formData.append('taxClass', formValue.taxClass);
             formData.append('description', descriptions);
             formData.append('bulletDescription', bulletDescription);
             formData.append('options', productOptions);
-            console.log(productImage);
             editProductHandler(dispatch, product?._id, formData)
                 .then((updateResponse) => {
                     if (updateResponse) {
@@ -118,37 +107,15 @@ const EditProductForm = ({ product }) => {
                 })
         }
     }
-
+    const handleImagesSelected = (images) => {
+        setSelectedImages(images);
+    };
     return (
         <div>
             <div className='flex justify-center items-center space-x-12'>
-                <div className='w-[220px] h-[200px] rounded-lg flex justify-center items-center'
-                    style={productImageError ?
-                        { border: `1px solid red` }
-                        :
-                        { border: `1px solid #d3d3d3` }}
-                    onClick={handleFileUpload}>
-                    {product?.productImage ? (
-                        <img
-                            id='productImage'
-                            src={imageChange ? URL.createObjectURL(productImage) : Requests.GET_PRODUCT_IMAGE + product?.productImage}
-                            alt='Uploaded'
-                            className='h-[180px] w-[180px] object-cover' />
-                    ) : (
-                        <span className='cursor-pointer'>
-                            Click to Upload
-                        </span>
-                    )}
-                    <input
-                        type='file'
-                        ref={fileInputRef}
-                        className='hidden'
-                        onChange={handleFileChange}
-                    />
-                </div>
-
+                <DynamicImageInputs updateValues={handleImagesSelected} />
                 <div className='w-1/3'>
-                    <div className='flex flex-col my-6'>
+                    <div className='flex flex-col my-2'>
                         <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                             Product Name *
                         </span>
@@ -160,7 +127,7 @@ const EditProductForm = ({ product }) => {
                             rows={3}
                         />
                     </div>
-                    <div className='flex flex-col my-6'>
+                    <div className='flex flex-col my-2'>
                         <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                             Company *
                         </span>
@@ -180,22 +147,72 @@ const EditProductForm = ({ product }) => {
                             </select>
                         </div>
                     </div>
+                    <div className='flex flex-col my-2'>
+                        <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                            Tax Status
+                        </span>
+                        <Input
+                            defaultValue={product?.taxStatus}
+                            name='taxStatus'
+                            onChange={onInput}
+                        />
+                    </div>
+                    <div className='flex flex-col my-2'>
+                        <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                            Tax Class
+                        </span>
+                        <Input
+                            defaultValue={product?.taxClass}
+                            name='taxClass'
+                            onChange={onInput}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <DynamicInputs existingOptions={JSON.parse(product?.options)} updateValues={handleOptionChange} />
-                </div>
+                {
+                    product?.options?.length > 0
+                        ?
+                        <div>
+                            <DynamicInputs existingOptions={JSON.parse(product?.options)} updateValues={handleOptionChange} />
+                        </div>
+                        :
+                        <div>
+                            <DynamicInputs existingOptions={[]} updateValues={handleOptionChange} />
+                        </div>
+                }
             </div>
             <div>
-                <DynamicDescriptionInputs
-                    initialDescriptions={JSON.parse(product?.description)}
-                    updateValues={handleDescriptionChange}
-                />
+                {
+                    product?.description?.length > 0
+                        ?
+                        <div>
+                            <DynamicDescriptionInputs
+                                initialDescriptions={JSON.parse(product?.description)}
+                                updateValues={handleDescriptionChange}
+                            />
+                        </div>
+                        :
+                        <div>
+                            <DynamicDescriptionInputs
+                                initialDescriptions={[]}
+                                updateValues={handleDescriptionChange}
+                            />
+                        </div>
+                }
             </div>
             <div>
-                <DynamicBulletDescription
-                    existingDescriptions={JSON.parse(product?.bulletDescription)}
-                    updateValues={handleBulletDescriptionChange}
-                />
+                {
+                    product?.bulletDescription?.length > 0
+                        ?
+                        <DynamicBulletDescription
+                            existingDescriptions={JSON.parse(product?.bulletDescription)}
+                            updateValues={handleBulletDescriptionChange}
+                        />
+                        :
+                        <DynamicBulletDescription
+                            existingDescriptions={[]}
+                            updateValues={handleBulletDescriptionChange}
+                        />
+                }
             </div>
             <div className='mt-4'>
                 <button

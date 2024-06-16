@@ -7,35 +7,11 @@ import { FaFileInvoice } from "react-icons/fa";
 import { SiBloglovin } from "react-icons/si";
 import { TbReportSearch } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
+import useAdminState from '../Hooks/useAdminState';
 
 const Home = () => {
     const navigate = useNavigate();
-    const details = [
-        {
-            id: 1,
-            title: 'Total Sales',
-            value: 15000,
-            color: '#FF9096'
-        },
-        {
-            id: 2,
-            title: 'Total Order Complete',
-            value: 149,
-            color: '#A05AFF'
-        },
-        {
-            id: 3,
-            title: 'Current Order Pending',
-            value: 95,
-            color: '#3A9BE8'
-        },
-        {
-            id: 4,
-            title: 'Best Saling Product',
-            value: null,
-            color: '#41D3BF'
-        }
-    ]
+    const { report } = useAdminState();
     const actionOptions = [
         {
             id: 1,
@@ -78,10 +54,10 @@ const Home = () => {
         <div className='p-4 bg-gray-300'>
             <div className='grid grid-cols-4 gap-4'>
                 {
-                    details.map((item) => {
-                        return <>
+                    report?.length > 0 && report?.map((item, index) => {
+                        return <div key={index}>
                             <DetailsCard value={item} />
-                        </>
+                        </div>
                     })
                 }
             </div>

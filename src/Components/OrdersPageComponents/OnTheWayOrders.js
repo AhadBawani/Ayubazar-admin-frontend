@@ -2,22 +2,16 @@ import React, { useEffect, useState } from 'react'
 import ShowOrderDetails from '../../Pages/ShowOrderDetails';
 import { formatDateString } from '../../Utils/FormateDate';
 import { getAllOnTheWayOrdersHandler } from '../../Requests/RequestHandler/OrdersRequestHandler';
+import { useDispatch } from 'react-redux';
+import useAdminState from '../../Hooks/useAdminState';
 
 const OnTheWayOrders = () => {
   const [order, setOrder] = useState();
-  const [orders, setOrders] = useState([]);
-
+  const { currentOrders } = useAdminState();
+  const dispatch = useDispatch();
   useEffect(() => {
-    getAllOnTheWayOrdersHandler()
-      .then((response) => {
-        if (response) {
-          setOrders(response);
-        }
-      })
-      .catch((error) => {
-        console.log('error in getting all the all the way orders : ', error);
-      })
-  }, [])
+    getAllOnTheWayOrdersHandler(dispatch);
+  }, [dispatch])
 
   const handleShowOrder = (order) => {
     setOrder(order);
@@ -28,7 +22,7 @@ const OnTheWayOrders = () => {
         order
           ?
           <>
-            <ShowOrderDetails order={order} setOrder={setOrder} state="on-the-way"/>
+            <ShowOrderDetails order={order} setOrder={setOrder} state="on-the-way" />
           </>
           :
           <>
@@ -42,12 +36,12 @@ const OnTheWayOrders = () => {
                     <th className="px-4 py-2">Total Products</th>
                     <th className="px-4 py-2">City</th>
                     <th className="px-4 py-2">Total</th>
-                    <th className="px-4 py-2">Date</th>                    
+                    <th className="px-4 py-2">Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    orders?.length > 0 && orders?.map((order, index) => {
+                    currentOrders?.length > 0 && currentOrders?.map((order, index) => {
                       const products = JSON.parse(order?.products);
                       return <>
                         <tr key={order._id} onClick={() => handleShowOrder(order)}
@@ -62,7 +56,7 @@ const OnTheWayOrders = () => {
                           </td>
                           <td className="border text-center px-4 py-2">{order?.orderShippingAddress?.city}</td>
                           <td className="border text-center px-4 py-2">{order?.total}</td>
-                          <td className="border text-center px-4 py-2">{formatDateString(order.createdAt)}</td>                          
+                          <td className="border text-center px-4 py-2">{formatDateString(order.createdAt)}</td>
                         </tr>
                       </>
                     })

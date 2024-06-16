@@ -58,8 +58,7 @@ const Authenticate = () => {
                         toast.success('User login successfull!');
                         dispatch(UserAction(response?.user));
                         dispatch(UserTokenAction(response?.token));
-                        localStorage.setItem('token', response?.token);
-                        console.log(response);
+                        localStorage.setItem('token', response?.token);                        
                     }
                 })
                 .catch((error) => {

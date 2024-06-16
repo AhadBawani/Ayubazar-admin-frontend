@@ -2,13 +2,17 @@ import ActionType from "../ActionType";
 
 const AdminState = {
     company: null,
+    companies: null,
     category: null,
     products: null,
     coupons: null,
     discount: null,
     blogs: null,
     orders: null,
-    order: null
+    currentOrders: null,
+    order: null,
+    report: null,
+    reviews: null
 };
 
 const AdminReducer = (state = AdminState, { type, payload }) => {
@@ -16,6 +20,9 @@ const AdminReducer = (state = AdminState, { type, payload }) => {
 
         case ActionType.COMPANY:
             return { ...state, company: payload };
+
+        case ActionType.COMPANIES:
+            return { ...state, companies: payload };
 
         case ActionType.CATEGORY:
             return { ...state, category: payload };
@@ -35,8 +42,17 @@ const AdminReducer = (state = AdminState, { type, payload }) => {
         case ActionType.ORDERS:
             return { ...state, orders: payload };
 
+        case ActionType.CURRENTORDERS:
+            return { ...state, currentOrders: payload };
+
         case ActionType.ORDER:
             return { ...state, order: payload };
+
+        case ActionType.REPORT:
+            return { ...state, report: payload };
+
+        case ActionType.REVIEWS:
+            return { ...state, reviews: payload };
 
         default:
             return state;

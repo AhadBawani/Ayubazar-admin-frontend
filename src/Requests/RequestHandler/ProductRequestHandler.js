@@ -86,3 +86,52 @@ export const editProductHandler = (dispatch, productId, data) => {
             })
     })
 }
+
+export const AddProductThroughExcelHandler = (data) => {
+    return new Promise((resolve, reject) => {
+        API.post(Requests.ADD_PRODUCTS_THROUGH_EXCEL, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then((addResponse) => {
+                if (addResponse.status === 201) {
+                    resolve(addResponse.data);
+                }
+            })
+            .catch((error) => {
+                const errorMessage = error?.response?.data || 'An error occurred';
+                reject(errorMessage);
+            })
+    })
+}
+
+export const BestSalingProductHandler = (productId) => {
+    return new Promise((resolve, reject) => {
+        API.post(Requests.BEST_SALING_PRODUCT + productId)
+            .then((response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                }
+            })
+            .catch((error) => {
+                const errorMessage = error?.response?.data || 'An error occurred';
+                reject(errorMessage);
+            })
+    })
+}
+
+export const ToggleProductCodHandler = (productId) => {
+    return new Promise((resolve, reject) => {
+        API.post(Requests.TOGGLE_PRODUCT_COD + productId)
+            .then((response) => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                }
+            })
+            .catch((error) => {
+                const errorMessage = error?.response?.data || 'An error occurred';
+                reject(errorMessage);
+            })
+    })
+}

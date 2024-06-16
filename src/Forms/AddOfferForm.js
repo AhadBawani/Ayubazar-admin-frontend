@@ -10,6 +10,7 @@ const AddOfferForm = () => {
     const { products } = useAdminState();
     const [isChecked, setIsChecked] = useState(false);
     const [selectedProductArr, setSelectedProductArr] = useState([]);
+    const [productArr, setProductArr] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,7 +34,8 @@ const AddOfferForm = () => {
     const handleCheckboxChange = (event) => {
         if (event.target.checked) {
             setIsChecked(event.target.checked);
-            setSelectedProductArr([...products]);
+            const productsArr = products?.map((item) => item?._id);
+            setSelectedProductArr([...productsArr]);
         } else {
             setIsChecked(event.target.checked);
             setSelectedProductArr([]);
@@ -44,14 +46,15 @@ const AddOfferForm = () => {
         const productId = e.target.value;
         const product = products.find((item) => item?._id === productId);
         if (product) {
-            const index = selectedProductArr?.findIndex((item) => item?._id === productId)
+            const index = selectedProductArr?.findIndex((item) => item === productId)
             if (index >= 0) {
                 toast.error('Product already selected!');
-                e.target.value = 'Select Product';
+                e.target.value = 'Select Product';                
                 return;
             }
             // Reset the select element's value to its default
-            setSelectedProductArr([...selectedProductArr, product]);
+            setSelectedProductArr([...selectedProductArr, productId]);
+                setProductArr([...productArr, product]);
             e.target.value = 'Select Product';
         }
     }
@@ -78,7 +81,7 @@ const AddOfferForm = () => {
                 discountPercentage: formValue.discount,
                 expiryDate: formattedExpiryDate,
                 productArr: selectedProductArr
-            }
+            }            
             createDiscountHandler(dispatch, obj)
                 .then((offerResponse) => {                    
                     if (offerResponse) {
@@ -191,7 +194,7 @@ const AddOfferForm = () => {
                     &&
                     <div className='mt-4'>
                         {
-                            selectedProductArr?.map((product, index) => (
+                            productArr?.map((product, index) => (
                                 <div key={index} className="flex justify-between mb-2">
                                     <span className="truncate mr-2 flex items-center">{product.productName}</span>
                                     <div className="rounded-full p-1 w-9 h-9 

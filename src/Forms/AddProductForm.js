@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import Button from '../Fields/Button';
 import DynamicInputs from '../Fields/DynamicInputs';
 import { AddProductRequestHandler } from '../Requests/RequestHandler/ProductRequestHandler';
@@ -7,12 +7,14 @@ import { toast } from 'react-toastify';
 import DynamicDescriptionInputs from '../Fields/DynamicDescriptionInputs';
 import DynamicBulletDescriptions from '../Fields/DynamicBulletDescriptions';
 import useAdminState from '../Hooks/useAdminState';
+import { useNavigate } from 'react-router-dom';
+import DynamicImageInputs from '../Fields/DynamicImageInputs';
 
 const AddProductForm = () => {
     const { company, category } = useAdminState();
     const dispatch = useDispatch();
-    const fileInputRef = useRef(null);
-    const [productImage, setProductImage] = useState();
+    const navigate = useNavigate();
+    const [selectedImages, setSelectedImages] = useState([]);
     const [productOptions, setProductOptions] = useState() || [];
     const [productDescription, setProductDescription] = useState(['']);
     const [productBulletDescription, setProductBulletDescription] = useState(['']);
@@ -30,14 +32,6 @@ const AddProductForm = () => {
         productCompany: false,
         category: null
     })
-    const [productImageError, setProductImageError] = useState(false);
-    const handleFileUpload = () => {
-        fileInputRef.current.click();
-    };
-    const handleFileChange = (event) => {
-        setProductImage(event.target.files[0]);
-        setProductImageError(false);
-    };
     const onInput = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value })
     }
@@ -56,12 +50,7 @@ const AddProductForm = () => {
 
         return { valid, newErrors };
     };
-    const handleAddProduct = () => {        
-        if (!productImage) {
-            setProductImageError(true);
-            toast.error('Product image is required!');
-            return;
-        }
+    const handleAddProduct = () => {
         const validateForm = validate(product, errors);
         if (!validateForm.valid) {
             setErrors(validateForm.newErrors);
@@ -75,7 +64,9 @@ const AddProductForm = () => {
             const productBulletDescriptions = JSON.stringify(productBulletDescription);
             const formData = new FormData();
             formData.append('productName', product.productName.trim());
-            formData.append('productImage', productImage);
+            selectedImages.forEach((image, index) => {
+                formData.append(`productImages`, image);
+            });
             formData.append('productCompany', product.productCompany);
             formData.append('description', productDescriptions);
             formData.append('productCategory', product.category);
@@ -86,6 +77,7 @@ const AddProductForm = () => {
                 .then((response) => {
                     if (response) {
                         toast.success(response);
+                        navigate('/inventory');
                     }
                 })
                 .catch((error) => {
@@ -108,6 +100,9 @@ const AddProductForm = () => {
         const filtered = category.filter((cat) => cat?.company === companyId);
         setCategories(filtered);
     }
+    const handleImagesSelected = (images) => {
+        setSelectedImages(images);
+    };
     return (
         <div className='m-4'>
             <div
@@ -115,29 +110,8 @@ const AddProductForm = () => {
                 Add Product
             </div>
             <div className='flex justify-between items-center space-x-12'>
-                <div className='w-[200px] h-[180px] rounded-lg mt-8'
-                    style={productImageError ?
-                        { border: `1px solid red` }
-                        :
-                        { border: `1px solid #d3d3d3` }}
-                    onClick={handleFileUpload}>
-                    {productImage ? (
-                        <div className='flex justify-center items-center'>
-                            <img id='productImage' src={URL.createObjectURL(productImage)}
-                                alt='Uploaded'
-                                className='h-[170px] w-[170px] object-cover' onClick={handleFileUpload} />
-                        </div>
-                    ) : (
-                        <span className='flex justify-center items-center cursor-pointer h-full'>
-                            Click to Upload
-                        </span>
-                    )}
-                    <input
-                        type='file'
-                        ref={fileInputRef}
-                        className='hidden'
-                        onChange={handleFileChange}
-                    />
+                <div>
+                    <DynamicImageInputs updateValues={handleImagesSelected} />
                 </div>
                 <div className='mt-6 flex-grow'>
                     <div className='flex flex-col my-6'>

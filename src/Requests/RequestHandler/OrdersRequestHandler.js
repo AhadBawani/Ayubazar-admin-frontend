@@ -1,4 +1,4 @@
-import { OrdersAction } from "../../Redux/Actions/AdminActions"
+import { CurrentOrderAction, OrdersAction, ReportAction } from "../../Redux/Actions/AdminActions"
 import API from "../Middlewares/Api"
 import Requests from "../Requests/Request"
 
@@ -42,32 +42,38 @@ export const deleteOrderHandler = (orderId) => {
      })
 }
 
-export const getAllCancelRequestOrderHandler = () => {
-     return new Promise((resolve, reject) => {
-          API.get(Requests.GET_ALL_CANCEL_REQUEST_ORDERS)
-               .then((response) => {
-                    if (response) {
-                         resolve(response.data);
-                    }
-               })
-               .catch((error) => {
-                    reject(error);
-               })
-     })
+export const getAllDeletedOrdersHandler = (dispatch) => {
+     API.get(Requests.GET_DELETED_ORDERS)
+          .then((deletedOrders) => {
+               dispatch(CurrentOrderAction(deletedOrders.data));
+          })
+          .catch((error) => {
+               console.log("error in getting all the delted orders : ", error);
+          })
 }
 
-export const getAllOnTheWayOrdersHandler = () => {
-     return new Promise((resolve, reject) => {
-          API.get(Requests.GET_ALL_ON_THE_WAY_ORDERS)
-               .then((response) => {
-                    if (response) {
-                         resolve(response.data);
-                    }
-               })
-               .catch((error) => {
-                    reject(error);
-               })
-     })
+export const getAllCancelRequestOrderHandler = (dispatch) => {
+     API.get(Requests.GET_ALL_CANCEL_REQUEST_ORDERS)
+          .then((response) => {
+               if (response) {                    
+                    dispatch(CurrentOrderAction((response.data)));
+               }
+          })
+          .catch((error) => {
+               console.log("error in getting all the cancel orders : ", error);
+          })
+}
+
+export const getAllOnTheWayOrdersHandler = (dispatch) => {
+     API.get(Requests.GET_ALL_ON_THE_WAY_ORDERS)
+          .then((response) => {
+               if (response) {
+                    dispatch(CurrentOrderAction(response.data));
+               }
+          })
+          .catch((error) => {
+               console.log('error in getting all the all the way orders : ', error);
+          })
 }
 
 export const acceptOrderCancelRequestHandler = (orderId) => {
@@ -128,7 +134,7 @@ export const orderExcelDetailsHandler = () => {
 
 export const OrdersToExcelHandler = (from, to) => {
      return new Promise((resolve, reject) => {
-          API.post(Requests.ORDER_DETAILS_IN_EXCEL + from + "/" + to, { responseType: 'blob' })
+          API.post(Requests.ORDER_DETAILS_IN_EXCEL + from + "/" + to, {}, { responseType: 'blob' })
                .then((response) => {
                     if (response && response.data !== null) {
                          resolve(response.data);
@@ -140,4 +146,16 @@ export const OrdersToExcelHandler = (from, to) => {
                     reject(error);
                })
      })
+}
+
+export const monthlyOrderReport = (dispatch) => {
+     API.get(Requests.GET_MONTHLY_REPORT)
+          .then((response) => {
+               if (response && response.data !== null) {
+                    dispatch(ReportAction(response.data));
+               }
+          })
+          .catch((error) => {
+               console.log('error in monthly order report handler : ', error);
+          })
 }
