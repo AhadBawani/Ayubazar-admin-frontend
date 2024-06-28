@@ -5,11 +5,11 @@ import { UserAction, UserTokenAction } from "../../Redux/Actions/AdminUserAction
 const handleNoToken = () => {
     store.dispatch(UserAction(null));
     store.dispatch(UserTokenAction(null));
-    window.location.href = 'http://localhost:3000/authenticate';
+    window.location.href = 'https://ayubazar.in/authenticate';
 }
 
 const API = axios.create({
-    url: 'http://localhost:5000',
+    url: 'https://api.ayubazar.in',
     headers: {
         'Content-Type': 'application/json',
     }
