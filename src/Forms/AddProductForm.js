@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import DynamicImageInputs from '../Fields/DynamicImageInputs';
 
 const AddProductForm = () => {
-    const { company, category } = useAdminState();
+    const { companies, category } = useAdminState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [selectedImages, setSelectedImages] = useState([]);
@@ -143,7 +143,7 @@ const AddProductForm = () => {
                         onChange={onCompanyChange}>
                         <option>Select Company</option>
                         {
-                            company.map((item) => {
+                            companies.map((item) => {
                                 return <option key={item?._id} value={item?._id}>{item?.companyName}</option>
                             })
                         }
