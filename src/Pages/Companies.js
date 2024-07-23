@@ -9,10 +9,10 @@ const Companies = () => {
      const { companies } = useAdminState();
      const { dialog } = useComponentState();
      const [searchResult, setSearchResult] = useState();
-     const [searchedCompanies, setSearchedCompanies] = useState([]);     
+     const [searchedCompanies, setSearchedCompanies] = useState([]);
      const handleCompanySearch = (e) => {
           setSearchResult(false);
-          let value = e.target.value.toLowerCase(); // Convert search string to lowercase for case-insensitive search
+          let value = e.target.value.toLowerCase();
           const filteredCompanies = companies.filter((item) => item.companyName.toLowerCase().includes(value));
           if (filteredCompanies?.length === 0) {
                setSearchResult(true);
@@ -41,7 +41,7 @@ const Companies = () => {
                                              className='p-2 border-2 border-gray-200 rounded-lg outline-none'
                                         />
                                    </div>
-                              </div>                              
+                              </div>
                          </div>
                          <div className='overflow-x-auto'>
                               <table className='table-auto min-w-full'>

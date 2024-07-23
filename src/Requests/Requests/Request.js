@@ -1,5 +1,5 @@
-const url = 'http://localhost:5000';
-// const url = 'https://api.ayubazar.in';
+// const url = 'http://localhost:5000';
+const url = 'https://api.ayubazar.in';
 
 const Requests = {
     GET_ALL_COMPANY: url + '/company',
@@ -46,9 +46,11 @@ const Requests = {
     TOGGLE_PRODUCT_COD: url + '/product/product-cod-available/',
     GET_ALL_REVIEWS: url + '/review/get-all-review',
     ADD_ADMIN_REVIEW: url + '/review/add-review-by-admin',
-    DELETE_PRODUCT_REVIEW : url + '/review/delete-review/',
-    ADD_SUB_CATEGORY : url + '/sub-category/',
-    GET_ALL_SUB_CATEGORY : url + '/sub-category/'
+    DELETE_PRODUCT_REVIEW: url + '/review/delete-review/',
+    ADD_SUB_CATEGORY: url + '/sub-category/',
+    GET_ALL_SUB_CATEGORY: url + '/sub-category/',
+    EDIT_CATEORY: url + '/category/',
+    EDIT_SUB_CATEGORY: url + '/sub-category/'
 }
 
 export default Requests;

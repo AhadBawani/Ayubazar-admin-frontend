@@ -25,7 +25,7 @@ const SubCategoryTable = () => {
                          All ({subCategories?.length})
                     </div>
                     <div>
-                         <span className='text-2xl font-bold'>Categories Table</span>
+                         <span className='text-2xl font-bold'>Sub Categories Table</span>
                     </div>
                     <div className='ml-4'>
                          <input

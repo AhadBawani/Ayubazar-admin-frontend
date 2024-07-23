@@ -1,9 +1,12 @@
 import React from 'react'
 import { MdEdit } from 'react-icons/md';
+import { DialogAction } from '../../Redux/Actions/ComponentsAction';
+import { useDispatch } from 'react-redux';
 
 const SubCategoryTableRow = ({ subCategories, index }) => {
+     const dispatch = useDispatch();
      const formatDateString = (dateString) => {
-          const date = new Date(dateString);     
+          const date = new Date(dateString);
           const formattedDate = `${padZero(date.getDate())}-${padZero(date.getMonth() + 1)}-${date.getFullYear()}`;
           return formattedDate;
      }
@@ -23,7 +26,8 @@ const SubCategoryTableRow = ({ subCategories, index }) => {
                <td className="border px-4 py-2">
                     <div className='flex justify-between'>
                          <span className='cursor-pointer'>
-                              <MdEdit />
+                              <MdEdit onClick={() => dispatch(DialogAction(
+                                   { open: 'edit-sub-category', data: subCategories }))} />
                          </span>
                     </div>
                </td>
