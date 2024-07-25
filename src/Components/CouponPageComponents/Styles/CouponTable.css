@@ -1,0 +1,13 @@
+.header-row {
+    display: flex;
+}
+
+.header-row th {
+    flex: 1;
+    text-align: center;
+}
+
+.header-row th span {
+    display: block;
+    width: 100%;
+}
