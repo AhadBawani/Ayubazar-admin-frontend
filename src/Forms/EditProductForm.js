@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DynamicDescriptionInputs from '../Fields/DynamicDescriptionInputs';
 import DynamicInputs from '../Fields/DynamicInputs';
 import DynamicBulletDescription from '../Fields/DynamicBulletDescriptions';
@@ -11,12 +11,13 @@ import Input from '../Fields/Input';
 import DynamicImageInputs from '../Fields/DynamicImageInputs';
 
 const EditProductForm = ({ product }) => {
-    const { company } = useAdminState();
+    const { company, category } = useAdminState();
     const dispatch = useDispatch();
     const [descriptions, setDescriptions] = useState(product?.description);
     const [bulletDescription, setBulletDescription] = useState(product?.bulletDescription);
     const [productOptions, setProductOptions] = useState(product?.options);
     const [selectedImages, setSelectedImages] = useState([product?.productImage]);
+    const [subCategories, setSubCategories] = useState([]);
     const [formError, setFormError] = useState({
         productName: false,
         productCompany: false
@@ -25,12 +26,22 @@ const EditProductForm = ({ product }) => {
         productName: product?.productName || null,
         productCompany: product?.productCompany?._id || null,
         taxClass: product?.taxClass || null,
-        taxStatus: product?.taxStatus || null
+        discount: product?.discount || null,
+        taxStatus: product?.taxStatus || null,
+        category: product?.productCategory?._id || null,
+        subCategory: product?.productSubCategory?._id || null
     });
 
     const onInput = (e) => {
         setFormValue({ ...formValue, [e.target.name]: e.target.value })
     }
+
+    useEffect(() => {
+        const filteredSubCategory = category?.filter((item) => item?._id === formValue.category);
+        if (filteredSubCategory?.length > 0) {
+            setSubCategories(filteredSubCategory[0]?.subCategories);
+        }
+    }, [category, formValue.category])
 
     const validate = () => {
         let valid = true;
@@ -92,7 +103,10 @@ const EditProductForm = ({ product }) => {
             formData.append('productCompany', formValue.productCompany);
             formData.append('taxStatus', formValue.taxStatus);
             formData.append('taxClass', formValue.taxClass);
+            formData.append('category', formValue.category);
+            formData.append('subCategory', formValue.subCategory);
             formData.append('description', descriptions);
+            formData.append('discount', formValue.discount);
             formData.append('bulletDescription', bulletDescription);
             formData.append('options', productOptions);
             editProductHandler(dispatch, product?._id, formData)
@@ -110,6 +124,7 @@ const EditProductForm = ({ product }) => {
     const handleImagesSelected = (images) => {
         setSelectedImages(images);
     };
+
     return (
         <div>
             <div className='flex justify-center items-center space-x-12'>
@@ -179,6 +194,59 @@ const EditProductForm = ({ product }) => {
                             <DynamicInputs existingOptions={[]} updateValues={handleOptionChange} />
                         </div>
                 }
+            </div>
+            <div className='flex flex-col'>
+                <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                    Discount *
+                </span>
+                <Input name="discount" onChange={onInput} type='number' defaultValue={formValue.discount} />
+            </div>
+            <div className='flex flex-col my-4'>
+                <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                    Category *
+                </span>
+                <div>
+                    <select
+                        className='p-2 rounded-lg w-full outline-none'
+                        style={{ border: '1px solid #d3d3d3' }}
+                        name='category'
+                        onChange={onInput}>
+                        <option>Select Category</option>
+                        {
+                            category.map((item) => {
+                                return <option key={item?._id}
+                                    value={item?._id}
+                                    selected={item?._id === formValue?.category}>
+                                    {item?.category}
+                                </option>
+                            })
+                        }
+                    </select>
+                </div>
+            </div>
+            <div className='flex flex-col my-4'>
+                <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                    Sub Category *
+                </span>
+                <div>
+                    <select
+                        className='p-2 rounded-lg w-full outline-none'
+                        style={{ border: '1px solid #d3d3d3' }}
+                        name='subCategory'
+                        onChange={onInput}>
+                        <option>Select Sub Category</option>
+                        {
+                            subCategories.map((item) => {
+                                return <option
+                                    key={item?._id}
+                                    value={item?._id}
+                                    selected={item?._id === formValue?.subCategory}>
+                                    {item?.subCategory}
+                                </option>
+                            })
+                        }
+                    </select>
+                </div>
             </div>
             <div>
                 {

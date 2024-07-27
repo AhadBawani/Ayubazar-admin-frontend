@@ -20,8 +20,7 @@ const SubCategoryTableRow = ({ subCategories, index }) => {
                <td className="border px-4 py-2">{index + 1}</td>
                <td className="border px-4 py-2">{subCategories.category?.category}</td>
                <td className="border px-4 py-2">{subCategories.subCategory}</td>
-               <td className="border text-center px-4 py-2">19</td>
-               <td className="border text-center px-4 py-2">10</td>
+               <td className="border text-center px-4 py-2">{subCategories?.products?.length}</td>               
                <td className="border px-4 py-2">{formatDateString(subCategories.createdAt)}</td>
                <td className="border px-4 py-2">
                     <div className='flex justify-between'>

@@ -1,5 +1,5 @@
-// const url = 'http://localhost:5000';
-const url = 'https://api.ayubazar.in';
+const url = 'http://localhost:5000';
+// const url = 'https://api.ayubazar.in';
 
 const Requests = {
     GET_ALL_COMPANY: url + '/company',
@@ -50,7 +50,8 @@ const Requests = {
     ADD_SUB_CATEGORY: url + '/sub-category/',
     GET_ALL_SUB_CATEGORY: url + '/sub-category/',
     EDIT_CATEORY: url + '/category/',
-    EDIT_SUB_CATEGORY: url + '/sub-category/'
+    EDIT_SUB_CATEGORY: url + '/sub-category/',
+    DELETE_PRODUCT : url + '/product/'
 }
 
 export default Requests;

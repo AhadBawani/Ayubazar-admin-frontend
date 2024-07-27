@@ -135,3 +135,19 @@ export const ToggleProductCodHandler = (productId) => {
             })
     })
 }
+
+export const DeleteProductHandler = (productId) => {
+    return new Promise((resolve, reject) => {
+        API.delete(Requests.DELETE_PRODUCT + productId)
+            .then((response) => {                
+                if (response.status === 200) {
+                    resolve(response.data);
+                }
+            })
+            .catch((error) => {
+                if (error) {
+                    reject(error);
+                }
+            })
+    })
+}

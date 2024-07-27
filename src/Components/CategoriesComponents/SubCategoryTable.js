@@ -29,7 +29,7 @@ const SubCategoryTable = () => {
                     </div>
                     <div className='ml-4'>
                          <input
-                              placeholder='Search Company'
+                              placeholder='Search Sub Category'
                               onChange={(e) => handleCompanySearch(e)}
                               className='p-2 border-2 border-gray-200 rounded-lg outline-none'
                          />

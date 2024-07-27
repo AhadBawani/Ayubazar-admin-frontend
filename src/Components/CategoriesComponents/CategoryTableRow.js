@@ -13,8 +13,8 @@ const CategoryTableRow = ({ categories, index }) => {
                     'bg-white text-[#4D4D4D]'}>
                <td className="border px-4 py-2">{index + 1}</td>
                <td className="border px-4 py-2">{categories.category}</td>
-               <td className="border text-center px-4 py-2">19</td>
-               <td className="border text-center px-4 py-2">10</td>
+               <td className="border text-center px-4 py-2">{categories?.subCategories?.length}</td>
+               <td className="border text-center px-4 py-2">{categories?.products?.length}</td>
                <td className="border px-4 py-2">{formatDateString(categories.createdAt)}</td>
                <td className="border px-4 py-2">
                     <div className='flex justify-between'>

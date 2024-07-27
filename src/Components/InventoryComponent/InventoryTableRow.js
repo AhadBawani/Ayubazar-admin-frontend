@@ -96,7 +96,7 @@ const InventoryTableRow = ({ product, index }) => {
             .catch((error) => {
                 console.log('error in best salling product handler : ', error);
             })
-    }    
+    }
     return (
         <>
             {isProcessing && (
@@ -134,7 +134,8 @@ const InventoryTableRow = ({ product, index }) => {
                     <div className='flex justify-between'>
                         <span className="relative cursor-pointer">
                             <MdDelete
-                                className="w-7 h-7 p-1 cursor-pointer rounded-full hover:bg-gray-200 m-1" />
+                                className="w-7 h-7 p-1 cursor-pointer rounded-full hover:bg-gray-200 m-1"
+                                onClick={() => dispatch(DialogAction({ open: 'delete-product', data: product }))} />
                         </span>
                         <span className='relative cursor-pointer'>
                             <MdEdit

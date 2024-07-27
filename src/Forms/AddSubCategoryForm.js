@@ -10,6 +10,7 @@ import {
 }
      from '../Requests/RequestHandler/SubCategoryHandler';
 import { useDispatch } from 'react-redux';
+import { getAllCategoryHandler } from '../Requests/RequestHandler/CategoryRequestHandler';
 
 const AddSubCategoryForm = () => {
      const { category } = useAdminState();
@@ -50,6 +51,7 @@ const AddSubCategoryForm = () => {
                     .then((response) => {
                          if (response) {
                               GetAllSubCategoryHandler(dispatch);
+                              getAllCategoryHandler(dispatch);
                               toast.success('Sub Category added successfully!');
                               document.getElementById('subCategory').value = null;
                               document.getElementById('category').value = 'Select Category';

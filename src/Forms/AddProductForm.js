@@ -9,6 +9,9 @@ import DynamicBulletDescriptions from '../Fields/DynamicBulletDescriptions';
 import useAdminState from '../Hooks/useAdminState';
 import { useNavigate } from 'react-router-dom';
 import DynamicImageInputs from '../Fields/DynamicImageInputs';
+import Input from '../Fields/Input';
+import { getAllCategoryHandler } from '../Requests/RequestHandler/CategoryRequestHandler';
+import { GetAllSubCategoryHandler } from '../Requests/RequestHandler/SubCategoryHandler';
 
 const AddProductForm = () => {
     const { companies, category, subCategories } = useAdminState();
@@ -22,7 +25,11 @@ const AddProductForm = () => {
     const [product, setProduct] = useState({
         productName: null,
         productCompany: null,
-        category: null
+        category: null,
+        subCategory: null,
+        taxClass: null,
+        taxStatus: null,
+        discount: 0
     });
     const updateProductOptions = (values) => {
         setProductOptions(values);
@@ -30,26 +37,61 @@ const AddProductForm = () => {
     const [errors, setErrors] = useState({
         productName: false,
         productCompany: false,
-        category: null
+        category: false,
+        subCategory: false
     })
     const onInput = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value })
     }
-    const validate = (value, errors) => {
+    const validate = () => {
         let valid = true;
         const newErrors = { ...errors };
 
-        Object.keys(value).forEach((key) => {
-            if (!value[key]) {
-                newErrors[key] = true;
-                valid = false;
-            } else {
-                newErrors[key] = false;
-            }
-        });
+        if (!product.productName) {
+            newErrors.productName = true;
+            valid = false;
+        } else {
+            newErrors.productName = false;
+        }
 
+        if (!product.category) {
+            newErrors.category = true;
+            valid = false;
+        } else {
+            newErrors.category = false;
+        }
+
+        if (!product.subCategory) {
+            newErrors.subCategory = true;
+            valid = false;
+        } else {
+            newErrors.subCategory = false;
+        }
+
+        if (!product.productCompany) {
+            newErrors.productCompany = true;
+            valid = false;
+        } else {
+            newErrors.productCompany = false;
+        }
         return { valid, newErrors };
-    };
+    }
+    // const validate = (value, errors) => {
+
+    //     // let valid = true;
+    //     // const newErrors = { ...errors };
+
+    //     // Object.keys(value).forEach((key) => {
+    //     //     if (!value[key]) {
+    //     //         newErrors[key] = true;
+    //     //         valid = false;
+    //     //     } else {
+    //     //         newErrors[key] = false;
+    //     //     }
+    //     // });
+
+    //     // return { valid, newErrors };
+    // };    
     const handleAddProduct = () => {
         const validateForm = validate(product, errors);
         if (!validateForm.valid) {
@@ -70,6 +112,10 @@ const AddProductForm = () => {
             formData.append('productCompany', product.productCompany);
             formData.append('description', productDescriptions);
             formData.append('productCategory', product.category);
+            formData.append('productSubCategory', product.subCategory);
+            formData.append('taxClass', product.taxClass);
+            formData.append('taxStatus', product.taxStatus);
+            formData.append('discount', product.discount);
             formData.append('bulletDescription', productBulletDescriptions);
             formData.append('options', productOption);
 
@@ -77,6 +123,8 @@ const AddProductForm = () => {
                 .then((response) => {
                     if (response) {
                         toast.success(response);
+                        getAllCategoryHandler(dispatch);
+                        GetAllSubCategoryHandler(dispatch);
                         navigate('/inventory');
                     }
                 })
@@ -99,8 +147,9 @@ const AddProductForm = () => {
     };
 
     const onCategoryChange = (e) => {
-        const categoryId = e.target.value;        
-        const filtered = subCategories.filter((cat) => cat?.category?._id === categoryId);        
+        onInput(e);
+        const categoryId = e.target.value;
+        const filtered = subCategories.filter((cat) => cat?.category?._id === categoryId);
         setFilteredSubCategories(filtered);
     }
     return (
@@ -157,8 +206,8 @@ const AddProductForm = () => {
                 <div>
                     <select
                         className='p-2 rounded-lg w-full outline-none'
-                        style={errors.category ? { border: '1px solid red' } : { border: '1px solid #d3d3d3' }}
-                        name='category'
+                        style={errors.subCategory ? { border: '1px solid red' } : { border: '1px solid #d3d3d3' }}
+                        name='subCategory'
                         onChange={onInput}>
                         <option>Select Sub Category</option>
                         {
@@ -188,7 +237,21 @@ const AddProductForm = () => {
                     </select>
                 </div>
             </div>
-            <div className='mt-4'>
+            <div className='flex gap-4 mt-4'>
+                <div className='flex flex-col w-1/2'>
+                    <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                        Tax Status *
+                    </span>
+                    <Input name="taxStatus" onChange={onInput} />
+                </div>
+                <div className='flex flex-col w-1/2'>
+                    <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                        Tax Class *
+                    </span>
+                    <Input name="taxClass" onChange={onInput} />
+                </div>
+            </div>
+            <div className='mt-2'>
                 <DynamicDescriptionInputs
                     updateValues={updateDescription} />
             </div>
@@ -198,6 +261,12 @@ const AddProductForm = () => {
             </div>
             <div className='mt-4'>
                 <DynamicInputs updateValues={updateProductOptions} />
+            </div>
+            <div className='flex flex-col'>
+                <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
+                    Discount in Percentage
+                </span>
+                <Input name="discount" onChange={onInput} type='number' />
             </div>
             <div className='mt-4'>
                 <Button text="Add Product"

@@ -36,7 +36,7 @@ const DynamicImageInputs = ({ updateValues }) => {
           <div className="mt-4">
                <span className="text-[#4D4D4D] text-sm font-semibold mb-2">Product Images</span>
                {imageInputs.map((input) => (
-                    <div key={input.id} className="flex mb-2 items-center w-[220px]">
+                    <div key={input.id} className="flex mb-2 items-center w-[20%]">
                          <input
                               type="file"
                               accept="image/*"
