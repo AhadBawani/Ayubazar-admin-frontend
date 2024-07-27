@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import Input from './Input';
+import { FaPlus } from 'react-icons/fa6';
+import { MdDelete } from "react-icons/md";
+
+const DynamicInputs = ({ existingOptions = [], updateValues }) => {
+    const [inputFields, setInputFields] = useState(existingOptions.length > 0 ? existingOptions.map((option, index) => ({ id: index + 1 })) : [{ id: 1 }]);
+    const [inputValues, setInputValues] = useState(existingOptions);
+
+    const handleAddFields = () => {
+        const newId = inputFields[inputFields.length - 1].id + 1;
+        setInputFields([...inputFields, { id: newId }]);
+        setInputValues([...inputValues, { option: '', price: '', quantity: null }]);
+    };
+
+    const handleInputChange = (index, name, value) => {
+        const newInputValues = [...inputValues];
+        if (name === 'quantity') {
+            newInputValues[index] = { ...newInputValues[index], [name]: parseInt(value) };
+        } else {
+            newInputValues[index] = { ...newInputValues[index], [name]: value };
+        }
+        setInputValues(newInputValues);
+        updateValues(newInputValues);
+    };
+
+    const handleDeleteInput = (index) => {
+        const newInputs = [...inputFields];
+        newInputs.splice(index, 1);
+        setInputFields(newInputs);
+
+        const newInputValues = [...inputValues];
+        newInputValues.splice(index, 1);
+        setInputValues(newInputValues);
+        updateValues(newInputValues);
+    };
+
+    return (
+        <div className="flex space-x-3">
+            <div className="flex flex-col">
+                {inputFields.map((input, index) => (
+                    <div key={index} className="flex items-center space-x-4 my-2">
+                        <div className="flex flex-col">
+                            <span className="text-[#4D4D4D] text-sm font-semibold mb-2">
+                                Product Option
+                            </span>
+                            <Input
+                                type="text"
+                                name={`option${input.id}`}
+                                value={inputValues[index]?.option}
+                                onChange={(e) => handleInputChange(index, `option`, e.target.value)}
+                                id={`input${input.id}`}
+                                error={false}
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[#4D4D4D] text-sm font-semibold mb-2">
+                                Product Price
+                            </span>
+                            <Input
+                                type="text"
+                                name={`price${input.id}`}
+                                value={inputValues[index]?.price}
+                                onChange={(e) => handleInputChange(index, `price`, e.target.value)}
+                                id={`input${input.id + 1}`}
+                                error={false}
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-[#4D4D4D] text-sm font-semibold mb-2">
+                                Option Quantity
+                            </span>
+                            <Input
+                                type="text"
+                                name={`quantity${input.id}`}
+                                value={inputValues[index]?.quantity}
+                                onChange={(e) => handleInputChange(index, `quantity`, e.target.value)}
+                                id={`input${input.id + 1}`}
+                                error={false}
+                            />
+                        </div>
+                        <div className='mt-7'>
+                            {index === 0 ? (
+                                <button className="p-3 h-[40px] bg-blue-500 text-white rounded outline-none" onClick={handleAddFields}>
+                                    <FaPlus />
+                                </button>
+                            ) : (
+                                <button className="p-3 h-[40px] bg-red-500 text-white rounded outline-none" onClick={() => handleDeleteInput(index)}>
+                                    <MdDelete />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="mt-11">
+                {/* Add any additional content */}
+            </div>
+        </div>
+    );
+};
+
+export default DynamicInputs;
