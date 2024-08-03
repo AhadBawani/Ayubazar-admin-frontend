@@ -19,41 +19,39 @@ const AddCompany = () => {
         pincode: null
     });
     const [errors, setErrors] = useState({
-        companyName: false,
-        companyImage: false,
-        gstNumber: false,
-        address: false,
-        city: false,
-        pincode: false
+        companyName: false
     });
     const onInput = (e) => {
         setCompany({ ...company, [e.target.name]: e.target.value })
     }
 
-    const validate = (value, errors) => {
+    const validate = () => {
         let valid = true;
         const newErrors = { ...errors };
 
-        Object.keys(value).forEach((key) => {
-            if (!value[key]) {
-                newErrors[key] = true;
-                valid = false;
-            } else {
-                newErrors[key] = false;
-            }
-        });
+        if (!company.companyName) {
+            newErrors.companyName = true;
+            valid = false;
+        } else {
+            newErrors.companyName = false;
+        }
 
-        return { valid, newErrors };
+        if (!companyImage) {
+            setCompanyImageError(true);
+            toast.error('Company image is required!');
+            return;
+        }
+
+        if (valid) {
+            return true;
+        } else {
+            setErrors(newErrors);
+        }
     };
 
     const handleAddCompany = () => {
-        const validateForm = validate(company, errors);
-        if (!validateForm.valid) {
-            setErrors(validateForm.newErrors);
-            toast.error('Please fill required fields!');
-            return;
-        }
-        if (validateForm.valid) {
+        const validateForm = validate();
+        if (validateForm) {
             setCompanyImageError(false);
             const formData = new FormData();
             formData.append('companyName', company.companyName);
@@ -78,6 +76,7 @@ const AddCompany = () => {
         setCompanyImage(event.target.files[0]);
         setCompanyImageError(false);
     };
+    console.log(errors);
     return (
         <>
             <div className='m-4'>
@@ -132,7 +131,7 @@ const AddCompany = () => {
                             GST Number *
                         </span>
                         <Input name="gstNumber" id="gstNumber"
-                            value={company.gstNumber} error={errors.gstNumber} onChange={onInput} />
+                            value={company.gstNumber} onChange={onInput} />
                         <div className='flex flex-col my-2'>
                             <span className='text-[#4D4D4D] text-sm font-semibold mb-2'>
                                 Address *
