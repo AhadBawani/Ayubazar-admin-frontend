@@ -1,0 +1,5 @@
+edit company -- done
+edit product -- done
+discount edit product issue -- done
+product can be without variations
+refresh to same page only
